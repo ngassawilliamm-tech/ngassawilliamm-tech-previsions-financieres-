@@ -1,0 +1,54 @@
+{
+  "expo": {
+    "name": "Kitoko",
+    "slug": "kitoko",
+    "scheme": "kitoko",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#7B1E48"
+    },
+    "ios": {
+      "bundleIdentifier": "be.kitoko.app",
+      "supportsTablet": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "be.kitoko.app",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#7B1E48"
+      },
+      "permissions": [
+        "POST_NOTIFICATIONS"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-notifications",
+        {
+          "color": "#7B1E48"
+        }
+      ],
+      "expo-asset",
+      "expo-font"
+    ],
+    "experiments": {
+      "typedRoutes": false
+    },
+    "extra": {
+      "eas": {
+        "projectId": "A_REMPLIR_APRES_eas_init"
+      },
+      "supabaseUrl": "https://xjkdutbrnbvcpjahxdfj.supabase.co",
+      "supabaseAnonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhqa2R1dGJybmJ2Y3BqYWh4ZGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQwODkyNjEsImV4cCI6MjEwOTY2NTI2MX0.v2YUDOgDBgcH5RBScqq3ZJ5nCUrONhuTXvCLVALWV3M"
+    }
+  }
+}

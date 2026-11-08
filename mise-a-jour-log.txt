@@ -1,0 +1,331 @@
+Mise a jour... 
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: 'expo@58.0.23',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || ^26.0.0 || >=27.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: 'expo-modules-cli@0.4.0',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || ^26.0.0 || >=27.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: 'metro@0.87.1',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || >= 26.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: 'metro-babel-transformer@0.87.1',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || >= 26.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: 'metro-cache@0.87.1',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || >= 26.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: 'metro-cache-key@0.87.1',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || >= 26.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: 'metro-config@0.87.1',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || >= 26.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: 'metro-core@0.87.1',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || >= 26.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: 'metro-file-map@0.87.1',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || >= 26.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: 'metro-minify-terser@0.87.1',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || >= 26.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: 'metro-resolver@0.87.1',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || >= 26.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: 'metro-runtime@0.87.1',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || >= 26.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: 'metro-source-map@0.87.1',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || >= 26.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: 'metro-symbolicate@0.87.1',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || >= 26.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: 'metro-transform-plugins@0.87.1',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || >= 26.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: 'metro-transform-worker@0.87.1',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || >= 26.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@react-native/js-polyfills@0.88.1',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || >= 26.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@react-native/babel-plugin-codegen@0.88.1',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || >= 26.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: 'ob1@0.87.1',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || >= 26.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@react-native/codegen@0.88.1',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || >= 26.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@expo/code-signing-certificates@0.0.7',
+npm warn EBADENGINE   required: { node: '>=22.13.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: 'expo-server@58.0.6',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || ^26.0.0 || >=27.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@react-native/asset-utils@0.88.1',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || >= 26.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@react-native/dev-middleware@0.88.1',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || >= 26.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@react-native/js-polyfills@0.88.1',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || >= 26.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@react-native/debugger-frontend@0.88.1',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || >= 26.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@react-native/debugger-shell@0.88.1',
+npm warn EBADENGINE   required: { node: '^22.13.0 || ^24.3.0 || >= 26.0.0' },
+npm warn EBADENGINE   current: { node: 'v22.11.0', npm: '10.9.0' }
+npm warn EBADENGINE }
+
+added 153 packages, removed 148 packages, and changed 18 packages in 2m
+Node.js (v22.11.0) is outdated and unsupported. Please update to a newer Node.js LTS version (required: >=22.13.0)
+Go to: https://nodejs.org/en/download
+
+The following packages should be updated for best compatibility with the installed expo version:
+  @expo/vector-icons@14.0.4 - expected version: ^15.0.2
+  @react-native-async-storage/async-storage@1.23.1 - expected version: 2.2.0
+  expo-constants@17.0.8 - expected version: ~58.0.15
+  expo-device@7.0.3 - expected version: ~58.0.5
+  expo-linear-gradient@14.0.2 - expected version: ~58.0.3
+  expo-linking@7.0.5 - expected version: ~58.0.16
+  expo-notifications@0.29.14 - expected version: ~58.1.8
+  expo-router@4.0.22 - expected version: ~58.0.30
+  expo-status-bar@2.0.1 - expected version: ~58.0.4
+  react@18.3.1 - expected version: 19.3.0
+  react-native@0.76.9 - expected version: 0.88.1
+  react-native-safe-area-context@4.12.0 - expected version: ~5.11.1
+  react-native-screens@4.4.0 - expected version: ~4.30.1
+Your project may not work correctly until you install the expected versions of the packages.
+› Installing 13 SDK 58.0.0 compatible native modules using npm
+> npm install
+npm error code ERESOLVE
+npm error ERESOLVE could not resolve
+npm error
+npm error While resolving: kitoko@1.0.0
+npm error Found: expo-router@4.0.22
+npm error node_modules/expo-router
+npm error   expo-router@"~58.0.30" from the root project
+npm error
+npm error Could not resolve dependency:
+npm error expo-router@"~58.0.30" from the root project
+npm error
+npm error Conflicting peer dependency: react@19.3.0
+npm error node_modules/react
+npm error   peer react@"^19.3.0" from react-native@0.88.1
+npm error   node_modules/react-native
+npm error     react-native@"0.88.1" from the root project
+npm error     peer react-native@"*" from expo-router@58.0.30
+npm error     node_modules/expo-router
+npm error       expo-router@"~58.0.30" from the root project
+npm error     13 more (@expo/ui, expo, @expo/metro-runtime, ...)
+npm error
+npm error Fix the upstream dependency conflict, or retry
+npm error this command with --force or --legacy-peer-deps
+npm error to accept an incorrect (and potentially broken) dependency resolution.
+npm error
+npm error
+npm error For a full report see:
+npm error D:\07 LOGICIELS ET RESSOURCES\npm-cache\_logs\2026-11-08T12_05_30_858Z-eresolve-report.txt
+npm error A complete log of this run can be found in: D:\07 LOGICIELS ET RESSOURCES\npm-cache\_logs\2026-11-08T12_05_30_858Z-debug-0.log
+Error: npm install exited with non-zero code: 1
+Error: npm install exited with non-zero code: 1
+    at ChildProcess.completionListener (D:\03 PROJETS\kitoko-app\node_modules\@expo\spawn-async\build\spawnAsync.js:113:23)
+    at Object.onceWrapper (node:events:633:26)
+    at ChildProcess.emit (node:events:518:28)
+    at cp.emit (D:\03 PROJETS\kitoko-app\node_modules\cross-spawn\lib\enoent.js:34:29)
+    at ChildProcess._handle.onexit (node:internal/child_process:293:12)
+    ...
+    at spawnAsync (D:\03 PROJETS\kitoko-app\node_modules\@expo\spawn-async\build\spawnAsync.js:9:23)
+    at NpmPackageManager.runAsync (D:\03 PROJETS\kitoko-app\node_modules\@expo\package-manager\build\node\BasePackageManager.js:75:42)
+    at D:\03 PROJETS\kitoko-app\node_modules\@expo\package-manager\build\node\NpmPackageManager.js:68:143
+    at D:\03 PROJETS\kitoko-app\node_modules\@expo\package-manager\build\utils\spawn.js:20:34
+Node.js (v22.11.0) is outdated and unsupported. Please update to a newer Node.js LTS version (required: >=22.13.0)
+Go to: https://nodejs.org/en/download
+
+› Installing 2 SDK 58.0.0 compatible native modules and 1 other package using npm
+> npm install --save query-string
+npm error code ERESOLVE
+npm error ERESOLVE could not resolve
+npm error
+npm error While resolving: kitoko@1.0.0
+npm error Found: expo-router@4.0.22
+npm error node_modules/expo-router
+npm error   expo-router@"~58.0.30" from the root project
+npm error
+npm error Could not resolve dependency:
+npm error expo-router@"~58.0.30" from the root project
+npm error
+npm error Conflicting peer dependency: react@19.3.0
+npm error node_modules/react
+npm error   peer react@"^19.3.0" from react-native@0.88.1
+npm error   node_modules/react-native
+npm error     react-native@"0.88.1" from the root project
+npm error     peer react-native@"*" from expo-router@58.0.30
+npm error     node_modules/expo-router
+npm error       expo-router@"~58.0.30" from the root project
+npm error     13 more (@expo/ui, expo, @expo/metro-runtime, ...)
+npm error
+npm error Fix the upstream dependency conflict, or retry
+npm error this command with --force or --legacy-peer-deps
+npm error to accept an incorrect (and potentially broken) dependency resolution.
+npm error
+npm error
+npm error For a full report see:
+npm error D:\07 LOGICIELS ET RESSOURCES\npm-cache\_logs\2026-11-08T12_06_17_795Z-eresolve-report.txt
+npm error A complete log of this run can be found in: D:\07 LOGICIELS ET RESSOURCES\npm-cache\_logs\2026-11-08T12_06_17_795Z-debug-0.log
+Error: npm install --save query-string exited with non-zero code: 1
+Error: npm install --save query-string exited with non-zero code: 1
+    at ChildProcess.completionListener (D:\03 PROJETS\kitoko-app\node_modules\@expo\spawn-async\build\spawnAsync.js:113:23)
+    at Object.onceWrapper (node:events:633:26)
+    at ChildProcess.emit (node:events:518:28)
+    at cp.emit (D:\03 PROJETS\kitoko-app\node_modules\cross-spawn\lib\enoent.js:34:29)
+    at ChildProcess._handle.onexit (node:internal/child_process:293:12)
+    ...
+    at spawnAsync (D:\03 PROJETS\kitoko-app\node_modules\@expo\spawn-async\build\spawnAsync.js:9:23)
+    at NpmPackageManager.runAsync (D:\03 PROJETS\kitoko-app\node_modules\@expo\package-manager\build\node\BasePackageManager.js:75:42)
+    at D:\03 PROJETS\kitoko-app\node_modules\@expo\package-manager\build\node\NpmPackageManager.js:71:23
+    at D:\03 PROJETS\kitoko-app\node_modules\@expo\package-manager\build\utils\spawn.js:20:34
+--- version --- 
+58.1.19
+    "expo": "^58.0.23",
+--- compilation --- 
+Node.js (v22.11.0) is outdated and unsupported. Please update to a newer Node.js LTS version (required: >=22.13.0)
+Go to: https://nodejs.org/en/download
+
+Starting Metro Bundler
+
+warning: Bundler cache is empty, rebuilding (this may take a minute)
+Android Bundling failed 94742ms node_modules\expo-router\entry.js (1201 modules)
+Unable to resolve "react-native/unstable-internals-do-not-use" from "node_modules\expo-asset\build\AssetSourceResolver.native.js"
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { [33mAssetSourceResolver[39m } [36mfrom[39m [32m'react-native/unstable-internals-do-not-use'[39m[33m;[39m
+ [90m   |[39m                                      [31m[1m^[22m[39m
+ [90m 2 |[39m [36mexport[39m [36mdefault[39m [33mAssetSourceResolver[39m[33m;[39m
+ [90m 3 |[39m
+ [90m 4 |[39m [90m//# sourceMappingURL=AssetSourceResolver.native.js.map[39m[0m
+
+Import stack:
+
+ node_modules\expo-asset\build\AssetSourceResolver.native.js
+ | import "react-native/unstable-internals-do-not-use"
+
+ node_modules\expo-asset\build\AssetSources.js
+ | import "./AssetSourceResolver"
+
+ node_modules\expo-asset\build\Asset.js
+ | import "./AssetSources"
+
+ node_modules\expo-asset\build\index.js
+ | import "./Asset"
+
+ node_modules\expo\build\Expo.fx.js
+ | import "expo-asset"
+
+ node_modules\expo\build\Expo.js
+ | import "./Expo.fx"
+
+ node_modules\expo-notifications\build\index.js
+ | import "expo"
+
+ app\_layout.js
+ | import "expo-notifications"
+
+ app (require.context)
+
+
+Error: Unable to resolve module react-native/unstable-internals-do-not-use from D:\03 PROJETS\kitoko-app\node_modules\expo-asset\build\AssetSourceResolver.native.js: react-native/unstable-internals-do-not-use could not be found within the project or in these directories:
+  node_modules\expo-asset\node_modules
+  node_modules
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { [33mAssetSourceResolver[39m } [36mfrom[39m [32m'react-native/unstable-internals-do-not-use'[39m[33m;[39m
+ [90m   |[39m                                      [31m[1m^[22m[39m
+ [90m 2 |[39m [36mexport[39m [36mdefault[39m [33mAssetSourceResolver[39m[33m;[39m
+ [90m 3 |[39m
+ [90m 4 |[39m [90m//# sourceMappingURL=AssetSourceResolver.native.js.map[39m[0m
+
+Import stack:
+
+ node_modules\expo-asset\build\AssetSourceResolver.native.js
+ | import "react-native/unstable-internals-do-not-use"
+
+ node_modules\expo-asset\build\AssetSources.js
+ | import "./AssetSourceResolver"
+
+ node_modules\expo-asset\build\Asset.js
+ | import "./AssetSources"
+
+ node_modules\expo-asset\build\index.js
+ | import "./Asset"
+
+ node_modules\expo\build\Expo.fx.js
+ | import "expo-asset"
+
+ node_modules\expo\build\Expo.js
+ | import "./Expo.fx"
+
+ node_modules\expo-notifications\build\index.js
+ | import "expo"
+
+ app\_layout.js
+ | import "expo-notifications"
+
+ app (require.context)
+
+CODE_SORTIE=1 
+TERMINE 

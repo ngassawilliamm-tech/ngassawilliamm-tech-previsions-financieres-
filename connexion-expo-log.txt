@@ -1,0 +1,6 @@
+Log in to EAS with email or username (exit and run 'npx expo login --help' for other login options)
+CommandError: Input is required, but 'npx expo' is in non-interactive mode.
+Use the EXPO_TOKEN environment variable to authenticate in CI (Learn more: https://docs.expo.dev/accounts/programmatic-access/)
+FIN_CONNEXION 
+Not logged in
+TERMINE 

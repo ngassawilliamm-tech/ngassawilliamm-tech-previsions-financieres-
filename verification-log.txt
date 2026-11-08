@@ -1,0 +1,52 @@
+Verification en cours... 
+› Installing 2 SDK 52.0.0 compatible native modules using npm
+> npm install
+
+added 2 packages, removed 2 packages, and audited 945 packages in 34s
+
+102 packages are looking for funding
+  run `npm fund` for details
+
+25 vulnerabilities (1 low, 18 moderate, 5 high, 1 critical)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+› Added config plugins: expo-asset, expo-font
+Starting Metro Bundler
+Error: Unable to resolve module query-string from D:\03 PROJETS\kitoko-app\node_modules\expo-router\build\fork\getPathFromState.js: query-string could not be found within the project or in these directories:
+  node_modules\expo-router\node_modules
+  node_modules
+[0m [90m 25 |[39m [33mObject[39m[33m.[39mdefineProperty(exports[33m,[39m [32m"__esModule"[39m[33m,[39m { value[33m:[39m [36mtrue[39m })[33m;[39m
+ [90m 26 |[39m exports[33m.[39mappendBaseUrl [33m=[39m exports[33m.[39mgetPathDataFromState [33m=[39m exports[33m.[39mgetPathFromState [33m=[39m [36mvoid[39m [35m0[39m[33m;[39m
+[31m[1m>[22m[39m[90m 27 |[39m [36mconst[39m queryString [33m=[39m __importStar(require([32m"query-string"[39m))[33m;[39m
+ [90m    |[39m                                           [31m[1m^[22m[39m
+ [90m 28 |[39m [36mconst[39m expo [33m=[39m __importStar(require([32m"./getPathFromState-forks"[39m))[33m;[39m
+ [90m 29 |[39m [90m// END FORK[39m
+ [90m 30 |[39m [36mconst[39m getActiveRoute [33m=[39m (state) [33m=>[39m {[0m
+Error: Unable to resolve module query-string from D:\03 PROJETS\kitoko-app\node_modules\expo-router\build\fork\getPathFromState.js: query-string could not be found within the project or in these directories:
+  node_modules\expo-router\node_modules
+  node_modules
+[0m [90m 25 |[39m [33mObject[39m[33m.[39mdefineProperty(exports[33m,[39m [32m"__esModule"[39m[33m,[39m { value[33m:[39m [36mtrue[39m })[33m;[39m
+ [90m 26 |[39m exports[33m.[39mappendBaseUrl [33m=[39m exports[33m.[39mgetPathDataFromState [33m=[39m exports[33m.[39mgetPathFromState [33m=[39m [36mvoid[39m [35m0[39m[33m;[39m
+[31m[1m>[22m[39m[90m 27 |[39m [36mconst[39m queryString [33m=[39m __importStar(require([32m"query-string"[39m))[33m;[39m
+ [90m    |[39m                                           [31m[1m^[22m[39m
+ [90m 28 |[39m [36mconst[39m expo [33m=[39m __importStar(require([32m"./getPathFromState-forks"[39m))[33m;[39m
+ [90m 29 |[39m [90m// END FORK[39m
+ [90m 30 |[39m [36mconst[39m getActiveRoute [33m=[39m (state) [33m=>[39m {[0m
+    at ModuleResolver.resolveDependency (D:\03 PROJETS\kitoko-app\node_modules\metro\src\node-haste\DependencyGraph\ModuleResolution.js:150:15)
+    at DependencyGraph.resolveDependency (D:\03 PROJETS\kitoko-app\node_modules\metro\src\node-haste\DependencyGraph.js:248:43)
+    at D:\03 PROJETS\kitoko-app\node_modules\metro\src\lib\transformHelpers.js:165:21
+    at resolveDependencies (D:\03 PROJETS\kitoko-app\node_modules\metro\src\DeltaBundler\buildSubgraph.js:42:25)
+    at visit (D:\03 PROJETS\kitoko-app\node_modules\metro\src\DeltaBundler\buildSubgraph.js:83:30)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async Promise.all (index 10)
+    at visit (D:\03 PROJETS\kitoko-app\node_modules\metro\src\DeltaBundler\buildSubgraph.js:92:5)
+    at async Promise.all (index 6)
+    at visit (D:\03 PROJETS\kitoko-app\node_modules\metro\src\DeltaBundler\buildSubgraph.js:92:5)
+CODE_SORTIE=1 
+TERMINE 

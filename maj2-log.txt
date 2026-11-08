@@ -1,0 +1,77 @@
+Mise a jour de Node.js vers v24.11.0... 
+v24.11.0
+
+added 46 packages, removed 382 packages, and changed 49 packages in 5m
+Dependencies are up to date
+› Installing 2 SDK 58.0.0 compatible native modules and 1 other package using npm
+> npm install --save query-string
+
+up to date, audited 619 packages in 20s
+
+59 packages are looking for funding
+  run `npm fund` for details
+
+7 vulnerabilities (5 moderate, 2 high)
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+› Added config plugins: expo-asset, expo-font
+--- version --- 
+    "expo": "^58.0.23",
+    "expo-router": "~58.0.30",
+    "react": "19.3.0",
+    "react-native": "0.88.1",
+--- compilation --- 
+Starting Metro Bundler
+
+warning: Bundler cache is empty, rebuilding (this may take a minute)
+Android Bundled 182934ms node_modules\expo-router\entry.js (1378 modules)
+
+› Assets (45):
+node_modules\@expo\vector-icons\build\vendor\react-native-vector-icons\Fonts\AntDesign.ttf (130KB)
+node_modules\@expo\vector-icons\build\vendor\react-native-vector-icons\Fonts\Entypo.ttf (66KB)
+node_modules\@expo\vector-icons\build\vendor\react-native-vector-icons\Fonts\EvilIcons.ttf (13KB)
+node_modules\@expo\vector-icons\build\vendor\react-native-vector-icons\Fonts\Feather.ttf (56KB)
+node_modules\@expo\vector-icons\build\vendor\react-native-vector-icons\Fonts\FontAwesome.ttf (166KB)
+node_modules\@expo\vector-icons\build\vendor\react-native-vector-icons\Fonts\FontAwesome5_Brands.ttf (134KB)
+node_modules\@expo\vector-icons\build\vendor\react-native-vector-icons\Fonts\FontAwesome5_Regular.ttf (34KB)
+node_modules\@expo\vector-icons\build\vendor\react-native-vector-icons\Fonts\FontAwesome5_Solid.ttf (203KB)
+node_modules\@expo\vector-icons\build\vendor\react-native-vector-icons\Fonts\FontAwesome6_Brands.ttf (209KB)
+node_modules\@expo\vector-icons\build\vendor\react-native-vector-icons\Fonts\FontAwesome6_Regular.ttf (68KB)
+node_modules\@expo\vector-icons\build\vendor\react-native-vector-icons\Fonts\FontAwesome6_Solid.ttf (424KB)
+node_modules\@expo\vector-icons\build\vendor\react-native-vector-icons\Fonts\Fontisto.ttf (314KB)
+node_modules\@expo\vector-icons\build\vendor\react-native-vector-icons\Fonts\Foundation.ttf (57KB)
+node_modules\@expo\vector-icons\build\vendor\react-native-vector-icons\Fonts\Ionicons.ttf (390KB)
+node_modules\@expo\vector-icons\build\vendor\react-native-vector-icons\Fonts\MaterialCommunityIcons.ttf (1.3MB)
+node_modules\@expo\vector-icons\build\vendor\react-native-vector-icons\Fonts\MaterialIcons.ttf (357KB)
+node_modules\@expo\vector-icons\build\vendor\react-native-vector-icons\Fonts\Octicons.ttf (69KB)
+node_modules\@expo\vector-icons\build\vendor\react-native-vector-icons\Fonts\SimpleLineIcons.ttf (54KB)
+node_modules\@expo\vector-icons\build\vendor\react-native-vector-icons\Fonts\Zocial.ttf (26KB)
+node_modules\expo-router\assets\arrow_down.png (9.5KB)
+node_modules\expo-router\assets\arrow_right.xml (307B)
+node_modules\expo-router\assets\checkmark.xml (312B)
+node_modules\expo-router\assets\error.png (469B)
+node_modules\expo-router\assets\file.png (138B)
+node_modules\expo-router\assets\forward.png (188B)
+node_modules\expo-router\assets\pkg.png (364B)
+node_modules\expo-router\assets\react-navigation\elements\back-icon-mask.png (653B)
+node_modules\expo-router\assets\react-navigation\elements\back-icon.png (4 variations | 152B)
+node_modules\expo-router\assets\react-navigation\elements\clear-icon.png (4 variations | 425B)
+node_modules\expo-router\assets\react-navigation\elements\close-icon.png (4 variations | 235B)
+node_modules\expo-router\assets\react-navigation\elements\search-icon.png (4 variations | 599B)
+node_modules\expo-router\assets\sitemap.png (465B)
+node_modules\expo-router\assets\unmatched.png (4.8KB)
+
+› android bundles (1):
+_expo/static/js/android/entry-6121a507f5cf92fd3a68b2e75a2a364b.hbc (3.9MB)
+
+› Files (1):
+metadata.json (3KB)
+
+Exported: D:\03 PROJETS\kitoko-app\.export-test
+CODE_SORTIE=0 
+
+added 1 package, removed 3 packages, and changed 526 packages in 3m
+TERMINE 
