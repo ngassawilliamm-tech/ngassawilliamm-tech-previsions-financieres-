@@ -44,11 +44,17 @@
       "typedRoutes": false
     },
     "extra": {
-      "eas": {
-        "projectId": "A_REMPLIR_APRES_eas_init"
-      },
       "supabaseUrl": "https://xjkdutbrnbvcpjahxdfj.supabase.co",
-      "supabaseAnonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhqa2R1dGJybmJ2Y3BqYWh4ZGZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQwODkyNjEsImV4cCI6MjEwOTY2NTI2MX0.v2YUDOgDBgcH5RBScqq3ZJ5nCUrONhuTXvCLVALWV3M"
-    }
+      "supabaseAnonKey": "VOTRE_CLE_SUPABASE",
+      "router": {
+        "asyncRoutes": {
+          "web": true
+        }
+      },
+      "eas": {
+        "projectId": "61238028-9dca-41be-9997-85d7f2b86eb8"
+      }
+    },
+    "owner": "williamsmith4004"
   }
 }
