@@ -113,10 +113,15 @@ export function Field({ label, value, onChangeText, placeholder, multiline, keyb
 }
 
 // Liste de choix dans une fenêtre (aucune dépendance externe)
+const norm = (s) => String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
 export function Select({ label, value, options, onChange, placeholder = "Choisir…" }) {
-  const t = useTheme(); const [open, setOpen] = useState(false);
+  const t = useTheme(); const [open, setOpen] = useState(false); const [q, setQ] = useState("");
   const opts = options.map((o) => (typeof o === "string" ? { label: o, value: o } : o));
   const current = opts.find((o) => o.value === value);
+  const searchable = opts.length > 12;
+  const shown = searchable && q.trim() ? opts.filter((o) => norm(o.label).includes(norm(q.trim()))) : opts;
+  const close = () => { setOpen(false); setQ(""); };
   return (
     <View style={{ gap: 2 }}>
       {label ? <Label>{label}</Label> : null}
@@ -125,13 +130,18 @@ export function Select({ label, value, options, onChange, placeholder = "Choisir
         <Text style={{ color: current ? t.ink : t.muted, fontSize: 16, flex: 1 }} numberOfLines={1}>{current ? current.label : placeholder}</Text>
         <Text style={{ color: t.muted }}>▾</Text>
       </Pressable>
-      <Modal visible={open} transparent animationType="slide" onRequestClose={() => setOpen(false)}>
-        <Pressable style={{ flex: 1, backgroundColor: "rgba(20,10,16,.5)" }} onPress={() => setOpen(false)} />
+      <Modal visible={open} transparent animationType="slide" onRequestClose={close}>
+        <Pressable style={{ flex: 1, backgroundColor: "rgba(20,10,16,.5)" }} onPress={close} />
         <SafeAreaView edges={["bottom"]} style={{ backgroundColor: t.surface, borderTopLeftRadius: 20, borderTopRightRadius: 20, maxHeight: "70%" }}>
           <Text style={{ color: t.ink, fontWeight: "800", fontSize: 18, padding: 18 }}>{label || placeholder}</Text>
-          <FlatList data={opts} keyExtractor={(o) => String(o.value)}
+          {searchable ? (
+            <TextInput value={q} onChangeText={setQ} placeholder="Rechercher…" placeholderTextColor={t.muted} autoCorrect={false}
+              style={{ marginHorizontal: 18, marginBottom: 10, backgroundColor: t.bg, color: t.ink, borderColor: t.line, borderWidth: 1, borderRadius: 999, paddingHorizontal: 16, paddingVertical: 10, fontSize: 16 }} />
+          ) : null}
+          <FlatList data={shown} keyExtractor={(o) => String(o.value)} keyboardShouldPersistTaps="handled"
+            ListEmptyComponent={<Text style={{ color: t.muted, padding: 18 }}>Aucun résultat</Text>}
             renderItem={({ item }) => (
-              <Pressable onPress={() => { onChange(item.value); setOpen(false); }}
+              <Pressable onPress={() => { onChange(item.value); close(); }}
                 style={{ paddingVertical: 14, paddingHorizontal: 18, borderTopWidth: 1, borderColor: t.line, flexDirection: "row", justifyContent: "space-between" }}>
                 <Text style={{ color: t.ink, fontSize: 16, flex: 1 }}>{item.label}</Text>
                 {item.value === value ? <Text style={{ color: t.accent, fontWeight: "800" }}>✓</Text> : null}

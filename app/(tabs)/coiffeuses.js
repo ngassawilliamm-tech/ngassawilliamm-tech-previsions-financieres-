@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { View, FlatList, TextInput, RefreshControl } from "react-native";
-import { router, useFocusEffect } from "expo-router";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { supabase } from "../../lib/supabase";
 import { useTheme } from "../../lib/theme";
 import { CITIES, STYLES, MODE_LABEL } from "../../lib/constants";
@@ -16,7 +16,18 @@ export default function Coiffeuses() {
     const [s, r] = await Promise.all([supabase.from("salons").select("*").order("name"), supabase.from("salon_ratings").select("*")]);
     setSalons(s.data ?? []); const m = {}; (r.data ?? []).forEach((x) => (m[x.salon_id] = x)); setRatings(m);
   }, []);
-  useFocusEffect(useCallback(() => { load(); }, [load]));
+  // Filtres envoyés depuis l'accueil (ville, style ou recherche)
+  const params = useLocalSearchParams();
+  useFocusEffect(useCallback(() => {
+    load();
+    if (params.ville !== undefined) setCity(String(params.ville));
+    if (params.style !== undefined) setStyle(String(params.style));
+    if (params.q !== undefined) setQ(String(params.q));
+    // On les efface ensuite pour que tes propres choix de filtres soient gardés
+    if (params.ville !== undefined || params.style !== undefined || params.q !== undefined) {
+      router.setParams({ ville: undefined, style: undefined, q: undefined });
+    }
+  }, [load, params.ville, params.style, params.q]));
 
   const list = useMemo(() => {
     const k = q.trim().toLowerCase();
