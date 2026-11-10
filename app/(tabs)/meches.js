@@ -64,7 +64,7 @@ export default function Meches() {
   return (
     <View style={{ flex: 1, backgroundColor: t.bg }}>
       <Stack.Screen options={{ headerRight: () => cart.count ? <Pressable onPress={() => router.push("/panier")} style={{ marginRight: 16 }}><Text style={{ color: t.accent, fontWeight: "800" }}>Panier · {cart.count}</Text></Pressable> : null }} />
-      <FlatList contentContainerStyle={{ padding: 16, gap: 12, paddingBottom: cart.count ? 110 : 40 }}
+      <FlatList contentContainerStyle={{ padding: 16, gap: 12, paddingBottom: cart.count ? 110 : 40, width: "100%", maxWidth: 1120, alignSelf: "center" }}
         data={products} keyExtractor={({ p }) => p.id} ListHeaderComponent={header}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={async () => { setRefreshing(true); await load(); setRefreshing(false); }} tintColor={t.accent} />}
         ListEmptyComponent={suppliers === null ? <Loading /> : <Empty title={suppliers.length ? "Aucune mèche ne correspond" : "Le catalogue arrive bientôt"} text={suppliers.length ? "Essaie un autre type, une autre couleur ou une autre ville." : "Dès qu'un fournisseur ajoute ses mèches, elles apparaissent ici."} />}

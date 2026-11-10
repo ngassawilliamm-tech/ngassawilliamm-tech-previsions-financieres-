@@ -1,0 +1,27 @@
+KITOKO — Mise à jour animations (page d'accueil)
+
+Cette mise à jour remplace uniquement :
+app/(tabs)/index.js
+
+Effets ajoutés :
+- Apparition progressive (fondu + léger déplacement) des éléments.
+- Orbes décoratifs flottants dans le hero.
+- Petit indicateur animé dans le bandeau de bienvenue.
+- Anneaux décoratifs qui tournent doucement dans les cartes de rubriques.
+- Apparition progressive des cartes salons et fournisseurs.
+- Interactions d'appui légèrement rebondies sur les cartes.
+
+Aucune nouvelle dépendance et aucun changement de base Supabase.
+Le mode de réduction des animations du système est respecté.
+
+INSTALLATION :
+1. Fermer le serveur Expo avec Ctrl+C dans son terminal.
+2. Faire une copie de sauvegarde du fichier actuel :
+   app/(tabs)/index.js
+3. Extraire cette archive dans le dossier racine du projet :
+   D:\03 PROJETS\kitoko-app
+4. Accepter le remplacement du fichier index.js.
+5. Relancer : npx expo start -c
+6. Ouvrir http://localhost:8081 et actualiser la page.
+
+Ne pas remplacer app.json, .env, eas.json ni les autres fichiers.

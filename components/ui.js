@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, Pressable, TextInput, Modal, FlatList, StyleSheet, ActivityIndicator, ScrollView } from "react-native";
+import { View, Text, Pressable, TextInput, Modal, FlatList, StyleSheet, ActivityIndicator, ScrollView, useWindowDimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme, R } from "../lib/theme";
 import { initials, colorFor, swatchColor } from "../lib/constants";
@@ -180,10 +180,27 @@ export function Loading() {
 
 export function Screen({ children, scroll = true, refreshControl, contentStyle }) {
   const t = useTheme();
-  if (!scroll) return <View style={{ flex: 1, backgroundColor: t.bg }}>{children}</View>;
+  const { width } = useWindowDimensions();
+  const desktop = width >= 900;
+  const contentWidth = desktop
+    ? { width: "100%", maxWidth: 1040, alignSelf: "center" }
+    : { width: "100%" };
+
+  if (!scroll) {
+    return (
+      <View style={{ flex: 1, backgroundColor: t.bg }}>
+        <View style={[{ flex: 1 }, contentWidth, contentStyle]}>{children}</View>
+      </View>
+    );
+  }
+
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: t.bg }} contentContainerStyle={[{ padding: 16, gap: 14, paddingBottom: 48 }, contentStyle]}
-      refreshControl={refreshControl} keyboardShouldPersistTaps="handled">
+    <ScrollView
+      style={{ flex: 1, backgroundColor: t.bg }}
+      contentContainerStyle={[{ padding: 16, gap: 14, paddingBottom: 48 }, contentWidth, contentStyle]}
+      refreshControl={refreshControl}
+      keyboardShouldPersistTaps="handled"
+    >
       {children}
     </ScrollView>
   );

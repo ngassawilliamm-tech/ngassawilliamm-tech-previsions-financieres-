@@ -45,7 +45,7 @@
     },
     "extra": {
       "supabaseUrl": "https://xjkdutbrnbvcpjahxdfj.supabase.co",
-      "supabaseAnonKey": "VOTRE_CLE_SUPABASE",
+ 
       "router": {
         "asyncRoutes": {
           "web": true

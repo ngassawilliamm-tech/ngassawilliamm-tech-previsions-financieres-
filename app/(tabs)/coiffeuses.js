@@ -41,7 +41,7 @@ export default function Coiffeuses() {
   );
 
   return (
-    <FlatList style={{ flex: 1, backgroundColor: t.bg }} contentContainerStyle={{ padding: 16, gap: 12, paddingBottom: 40 }}
+    <FlatList style={{ flex: 1, backgroundColor: t.bg }} contentContainerStyle={{ padding: 16, gap: 12, paddingBottom: 40, width: "100%", maxWidth: 1040, alignSelf: "center" }}
       data={list} keyExtractor={(p) => p.id} ListHeaderComponent={header}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={async () => { setRefreshing(true); await load(); setRefreshing(false); }} tintColor={t.accent} />}
       ListEmptyComponent={salons === null ? <Loading /> : <Empty title="Aucune coiffeuse ne correspond" text="Essaie une autre ville ou un autre style." />}

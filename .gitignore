@@ -7,3 +7,12 @@ dist/
 *.p12
 *.key
 *.mobileprovision
+
+.vercel
+.env.*
+build/
+android/app/build/
+ios/build/
+*.keystore
+google-services.json
+GoogleService-Info.plist
