@@ -713,43 +713,27 @@ function HeroBackground({ t, scrollY, reduce, desktop, width }) {
   const a = (x) => `rgba(${rgb},${x})`;
   const fill = { position: "absolute", top: 0, left: 0, right: 0, bottom: 0 };
 
-  // Site web sur ordinateur : deux photos de même taille, fondues dans le fond,
-  // la 2e un peu plus bas, pour montrer les différentes origines
+  // Site web sur ordinateur : les deux photos (même taille) fusionnées en une seule image,
+  // avec un fondu progressif de l'une à l'autre au centre (assets/photos/fond-duo.jpg)
   if (desktop) {
-    // Les photos commencent juste à droite du texte (colonne de 640 px dans le conteneur de 1240 px)
+    // L'image commence juste à droite du texte (colonne de 640 px dans le conteneur de 1240 px)
     const textRight = Math.max(0, (width - 1240) / 2) + 20 + 640;
-    const left0 = textRight + 10;
-    const areaW = width - left0;
-    const colW = areaW / 2;
-    const scale2 = k.interpolate({ inputRange: [0, 1], outputRange: [1.16, 1.04] });
-    const tx2 = k.interpolate({ inputRange: [0, 1], outputRange: [14, -14] });
-    const ty2 = scrollY.interpolate({ inputRange: [-200, 0, 600], outputRange: [-30, 0, 100], extrapolate: "clamp" });
-    const photo = (source, label, style, motion) => (
-      <View style={[{ position: "absolute", width: colW, overflow: "hidden" }, style]}>
-        <Animated.Image
-          source={source}
-          resizeMode="cover"
-          accessibilityLabel={label}
-          style={[fill, { width: "100%", height: "100%", transform: motion }]}
-        />
-        {/* Fondu sur les quatre bords */}
-        <LinearGradient colors={[a(1), a(0), a(0), a(1)]} locations={[0, 0.22, 0.78, 1]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={fill} />
-        <LinearGradient colors={[a(1), a(0), a(0), a(1)]} locations={[0, 0.12, 0.72, 1]} start={{ x: 0, y: 0 }} end={{ x: 0, y: 1 }} style={fill} />
-      </View>
-    );
+    const left0 = textRight - 30;
+    const scaleD = k.interpolate({ inputRange: [0, 1], outputRange: [1.0, 1.07] });
+    const txD = k.interpolate({ inputRange: [0, 1], outputRange: [-10, 10] });
     return (
       <View pointerEvents="none" style={[fill, { overflow: "hidden" }]}>
-        {photo(require("../../assets/photos/fond-accueil-2.jpg"), "Cliente aux cornrows dans un salon Kitoko",
-          { left: left0, top: "9%", height: "91%" }, [{ translateY: ty2 }, { translateX: tx2 }, { scale: scale2 }])}
-        {photo(require("../../assets/photos/fond-accueil.jpg"), "Cliente aux tresses dorées dans un salon Kitoko",
-          { left: left0 + areaW - colW, top: 0, height: "91%" }, [{ translateY: ty }, { translateX: tx }, { scale }])}
-        {/* Fondu doux à la jonction des deux photos */}
-        <LinearGradient
-          colors={[a(0), a(0.85), a(0)]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={{ position: "absolute", top: 0, bottom: 0, left: left0 + colW - 70, width: 140 }}
-        />
+        <View style={{ position: "absolute", top: 0, bottom: 0, left: left0, right: 0, overflow: "hidden" }}>
+          <Animated.Image
+            source={require("../../assets/photos/fond-duo.jpg")}
+            resizeMode="cover"
+            accessibilityLabel="Deux clientes aux tresses dans un salon Kitoko"
+            style={[fill, { width: "100%", height: "100%", transform: [{ translateY: ty }, { translateX: txD }, { scale: scaleD }] }]}
+          />
+          {/* Fondu uniquement sur les bords extérieurs */}
+          <LinearGradient colors={[a(1), a(0), a(0), a(0.6)]} locations={[0, 0.1, 0.92, 1]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={fill} />
+          <LinearGradient colors={[a(0.9), a(0), a(0), a(1)]} locations={[0, 0.1, 0.75, 1]} start={{ x: 0, y: 0 }} end={{ x: 0, y: 1 }} style={fill} />
+        </View>
       </View>
     );
   }
