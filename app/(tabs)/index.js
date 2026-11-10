@@ -730,10 +730,10 @@ function HeroBackground({ t, scrollY, reduce, desktop, width }) {
     <View pointerEvents="none" style={[fill, { overflow: "hidden" }]}>
       <View style={[box, { overflow: "hidden" }]}>
         <Animated.Image
-          // App téléphone (iPhone / Android) : Fulani braids ; site web : tresses dorées + logo KITOKO
+          // App téléphone (iPhone / Android) : box braids devant le logo KITOKO ; site web : tresses dorées + logo KITOKO
           source={Platform.OS === "web" ? require("../../assets/photos/fond-accueil.jpg") : require("../../assets/photos/fond-app.jpg")}
           resizeMode="cover"
-          accessibilityLabel={Platform.OS === "web" ? "Cliente aux tresses dorées dans un salon Kitoko" : "Cliente aux Fulani braids avec perles dorées"}
+          accessibilityLabel={Platform.OS === "web" ? "Cliente aux tresses dorées dans un salon Kitoko" : "Cliente souriante aux box braids dans un salon Kitoko"}
           style={[fill, { width: "100%", height: "100%", transform: [{ translateY: ty }, { translateX: tx }, { scale }] }]}
         />
         <LinearGradient
