@@ -771,7 +771,6 @@ export default function Home() {
   );
 
   const nAvis = Object.values(ratings).reduce((a, r) => a + Number(r.n_reviews || 0), 0);
-  const nCities = Object.keys(counts).length;
 
   // Parallaxe du haut de page
   const heroShift = scrollY.interpolate({ inputRange: [-200, 0, 400], outputRange: [-60, 0, 120], extrapolate: "clamp" });
@@ -843,7 +842,7 @@ export default function Home() {
               <View style={{ alignSelf: "flex-start", flexDirection: "row", alignItems: "center", gap: 9, marginTop: 10, paddingHorizontal: 12, paddingVertical: 8, borderRadius: R.pill, backgroundColor: t.surface, borderWidth: 1, borderColor: t.line }}>
                 <PulseDot color={t.ok} reduce={reduce} />
                 <Text style={{ color: t.muted, fontSize: 11, fontWeight: "800", letterSpacing: 0.7 }}>
-                  {nCities ? `DISPONIBLE DANS ${nCities} VILLE${nCities > 1 ? "S" : ""} DE BELGIQUE` : "COIFFURE AFRO · PARTOUT EN BELGIQUE"}
+                  {`DISPONIBLE DANS ${CITIES.length} VILLES DE BELGIQUE`}
                 </Text>
               </View>
             </Rise>
@@ -876,7 +875,7 @@ export default function Home() {
 
           <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between", marginTop: 22, paddingHorizontal: 20 }}>
             <Counter value={salons.length} label="salons et coiffeuses" icon="cut-outline" t={t} reduce={reduce} />
-            <Counter value={nCities} label="villes couvertes" icon="map-outline" t={t} reduce={reduce} />
+            <Counter value={CITIES.length} label="villes disponibles" icon="map-outline" t={t} reduce={reduce} />
             <Counter value={suppliers.length} label="boutiques de mèches" icon="bag-handle-outline" t={t} reduce={reduce} />
             <Counter value={nAvis} label="avis de clientes" icon="star-outline" t={t} reduce={reduce} />
           </View>
