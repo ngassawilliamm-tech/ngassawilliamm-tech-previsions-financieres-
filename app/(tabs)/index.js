@@ -718,7 +718,7 @@ function PortraitGallery({ t, reduce, city }) {
           style={{ width: CARD, borderRadius: R.lg, overflow: "hidden", borderWidth: 1, borderColor: t.line, backgroundColor: t.surface }}
         >
           {person.photo ? (
-            <ZoomPhoto source={person.source} width={CARD} height={CARD * 1.25} reduce={reduce} delay={(i % 4) * 700} />
+            <ZoomPhoto source={person.source} width={CARD} height={CARD * 1.3} reduce={reduce} delay={(i % 4) * 700} />
           ) : (
             <LinearGradient colors={person.bg} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ height: CARD * 1.12, alignItems: "center", justifyContent: "flex-end", overflow: "hidden" }}>
               <View style={{ position: "absolute", top: -30, right: -30, width: 110, height: 110, borderRadius: 55, backgroundColor: "rgba(255,255,255,0.35)" }} />
@@ -726,7 +726,7 @@ function PortraitGallery({ t, reduce, city }) {
             </LinearGradient>
           )}
           <View style={{ padding: 12, gap: 2 }}>
-            <Text style={{ color: t.ink, fontWeight: "800", fontSize: 15 }}>{person.label}</Text>
+            <Text numberOfLines={1} style={{ color: t.ink, fontWeight: "800", fontSize: 15 }}>{person.label}</Text>
             <Row gap={4} wrap={false}>
               <Text style={{ color: t.accent, fontWeight: "700", fontSize: 13 }}>Trouver</Text>
               <Ionicons name="arrow-forward" size={13} color={t.accent} />
