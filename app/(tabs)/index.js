@@ -1,6 +1,6 @@
 ﻿import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import {
-  View, Text, Animated, Easing, Pressable, FlatList, TextInput, Platform, Modal,
+  View, Text, Animated, Easing, Pressable, FlatList, TextInput, Platform, Modal, Image,
   useWindowDimensions, AccessibilityInfo, RefreshControl
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
@@ -15,11 +15,16 @@ import {
   Row, Chip, Swatch, Body, Select
 } from "../../components/ui";
 import { euro, CITIES, POPULAR_CITIES } from "../../lib/constants";
-import { Portrait, PEOPLE } from "../../components/Portrait";
-import HeroEditorial from "../../components/HeroEditorial";
+import { Portrait, PortraitAvatar, PEOPLE } from "../../components/Portrait";
+import { PHOTOS } from "../../lib/photos";
 
 const CITY_KEY = "kitoko.ville";
 const USE_NATIVE = Platform.OS !== "web";
+
+const WORDS = [
+  "knotless", "box braids", "locks", "twists",
+  "cornrows", "faux locs", "tissages", "French curls"
+];
 
 const MARQUEE = [
   "Box braids", "Knotless", "Cornrows", "Twists",
@@ -69,7 +74,90 @@ function useReduceMotion() {
 // Animations de décor
 // ─────────────────────────────────────────────────────────────
 
+function Braid({ width, colors, reduce, height = 56, amp = 14, dots = 30, size = 12 }) {
+  const t = useRef(new Animated.Value(0)).current;
 
+  useEffect(() => {
+    if (reduce) return;
+    const loop = Animated.loop(
+      Animated.timing(t, { toValue: 1, duration: 3200, easing: Easing.linear, useNativeDriver: USE_NATIVE })
+    );
+    loop.start();
+    return () => loop.stop();
+  }, [reduce]);
+
+  const step = width / dots;
+  const items = [];
+
+  for (let s = 0; s < 3; s++) {
+    for (let i = 0; i <= dots; i++) {
+      const phase = i * 0.42 + (s * 2 * Math.PI) / 3;
+      const ys = [0, 0.25, 0.5, 0.75, 1].map((k) => amp * Math.sin(phase + k * 2 * Math.PI));
+      const zs = [0, 0.25, 0.5, 0.75, 1].map((k) => 0.8 + 0.25 * Math.cos(phase + k * 2 * Math.PI));
+
+      items.push(
+        <Animated.View
+          key={`${s}-${i}`}
+          style={{
+            position: "absolute",
+            left: i * step - size / 2,
+            top: height / 2 - size / 2,
+            width: size,
+            height: size,
+            borderRadius: size / 2,
+            backgroundColor: colors[s],
+            opacity: 0.9,
+            transform: reduce
+              ? [{ translateY: ys[0] }]
+              : [
+                  { translateY: t.interpolate({ inputRange: [0, 0.25, 0.5, 0.75, 1], outputRange: ys }) },
+                  { scale: t.interpolate({ inputRange: [0, 0.25, 0.5, 0.75, 1], outputRange: zs }) }
+                ]
+          }}
+        />
+      );
+    }
+  }
+
+  return <View pointerEvents="none" style={{ height, width, overflow: "hidden" }}>{items}</View>;
+}
+
+function RotatingWord({ color, reduce }) {
+  const [i, setI] = useState(0);
+  const y = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      if (reduce) {
+        setI((x) => (x + 1) % WORDS.length);
+        return;
+      }
+      Animated.timing(y, { toValue: -1, duration: 260, useNativeDriver: USE_NATIVE, easing: Easing.in(Easing.quad) }).start(() => {
+        setI((x) => (x + 1) % WORDS.length);
+        y.setValue(1);
+        Animated.timing(y, { toValue: 0, duration: 380, useNativeDriver: USE_NATIVE, easing: Easing.out(Easing.cubic) }).start();
+      });
+    }, 2400);
+    return () => clearInterval(id);
+  }, [reduce]);
+
+  return (
+    <View style={{ overflow: "hidden", height: 50 }}>
+      <Animated.Text
+        style={{
+          color,
+          fontSize: 44,
+          fontWeight: "800",
+          fontStyle: "italic",
+          letterSpacing: -1.2,
+          transform: [{ translateY: y.interpolate({ inputRange: [-1, 1], outputRange: [-50, 50] }) }]
+        }}
+      >
+        {WORDS[i]}
+      </Animated.Text>
+    </View>
+  );
+}
 
 function Marquee({ t, reduce }) {
   const x = useRef(new Animated.Value(0)).current;
@@ -224,6 +312,31 @@ function FloatingOrb({ size, color, top, right, bottom, left, delay = 0, reduce 
   );
 }
 
+function PulseDot({ color, reduce }) {
+  const pulse = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if (reduce) return;
+    const loop = Animated.loop(
+      Animated.timing(pulse, { toValue: 1, duration: 1600, easing: Easing.out(Easing.quad), useNativeDriver: USE_NATIVE })
+    );
+    loop.start();
+    return () => loop.stop();
+  }, [reduce, pulse]);
+
+  return (
+    <View style={{ width: 8, height: 8, alignItems: "center", justifyContent: "center" }}>
+      <Animated.View
+        style={{
+          position: "absolute", width: 8, height: 8, borderRadius: 4, backgroundColor: color,
+          opacity: pulse.interpolate({ inputRange: [0, 1], outputRange: [0.6, 0] }),
+          transform: [{ scale: pulse.interpolate({ inputRange: [0, 1], outputRange: [1, 2.8] }) }]
+        }}
+      />
+      <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: color }} />
+    </View>
+  );
+}
 
 // Bloc gris animé affiché pendant le chargement
 function Skeleton({ width, height, radius = 10, t, reduce, style }) {
@@ -558,7 +671,29 @@ function SupplierCard({ s, t }) {
 }
 
 
-// Galerie de portraits qui défile toute seule (on peut appuyer sur une coiffure)
+// Vraie photo qui zoome lentement (effet « Ken Burns »)
+function ZoomPhoto({ source, width, height, reduce, delay = 0 }) {
+  const z = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    if (reduce) return;
+    const loop = Animated.loop(
+      Animated.sequence([
+        Animated.delay(delay),
+        Animated.timing(z, { toValue: 1, duration: 6000, easing: Easing.inOut(Easing.sin), useNativeDriver: USE_NATIVE }),
+        Animated.timing(z, { toValue: 0, duration: 6000, easing: Easing.inOut(Easing.sin), useNativeDriver: USE_NATIVE })
+      ])
+    );
+    loop.start();
+    return () => loop.stop();
+  }, [reduce]);
+  return (
+    <View style={{ width, height, overflow: "hidden" }}>
+      <Animated.Image source={source} resizeMode="cover" style={{ width, height, transform: [{ scale: z.interpolate({ inputRange: [0, 1], outputRange: [1, 1.12] }) }] }} />
+    </View>
+  );
+}
+
+// Galerie qui défile toute seule : vraies photos (lib/photos.js) ou portraits illustrés (on peut appuyer sur une coiffure)
 function PortraitGallery({ t, reduce, city }) {
   const x = useRef(new Animated.Value(0)).current;
   const [w, setW] = useState(0);
@@ -575,17 +710,21 @@ function PortraitGallery({ t, reduce, city }) {
 
   const row = (k) => (
     <View key={k} style={{ flexDirection: "row", gap: 14, paddingRight: 14 }} onLayout={k === 0 ? (e) => setW(e.nativeEvent.layout.width) : undefined}>
-      {PEOPLE.map((person, i) => (
+      {(PHOTOS.length ? PHOTOS.map((ph, i) => ({ ...ph, id: "ph" + i, photo: true })) : PEOPLE).map((person, i) => (
         <PressScale
           key={person.id}
           onPress={() => router.push({ pathname: "/coiffeuses", params: { style: person.style, ville: city || "" } })}
           accessibilityLabel={person.label}
           style={{ width: CARD, borderRadius: R.lg, overflow: "hidden", borderWidth: 1, borderColor: t.line, backgroundColor: t.surface }}
         >
-          <LinearGradient colors={person.bg} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ height: CARD * 1.12, alignItems: "center", justifyContent: "flex-end", overflow: "hidden" }}>
-            <View style={{ position: "absolute", top: -30, right: -30, width: 110, height: 110, borderRadius: 55, backgroundColor: "rgba(255,255,255,0.35)" }} />
-            <Portrait person={person} size={CARD * 0.84} reduce={reduce} seed={i + k * 3} />
-          </LinearGradient>
+          {person.photo ? (
+            <ZoomPhoto source={person.source} width={CARD} height={CARD * 1.25} reduce={reduce} delay={(i % 4) * 700} />
+          ) : (
+            <LinearGradient colors={person.bg} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ height: CARD * 1.12, alignItems: "center", justifyContent: "flex-end", overflow: "hidden" }}>
+              <View style={{ position: "absolute", top: -30, right: -30, width: 110, height: 110, borderRadius: 55, backgroundColor: "rgba(255,255,255,0.35)" }} />
+              <Portrait person={person} size={CARD * 0.84} reduce={reduce} seed={i + k * 3} />
+            </LinearGradient>
+          )}
           <View style={{ padding: 12, gap: 2 }}>
             <Text style={{ color: t.ink, fontWeight: "800", fontSize: 15 }}>{person.label}</Text>
             <Row gap={4} wrap={false}>
@@ -715,6 +854,9 @@ export default function Home() {
 
   const nAvis = Object.values(ratings).reduce((a, r) => a + Number(r.n_reviews || 0), 0);
 
+  // Parallaxe du haut de page
+  const heroShift = scrollY.interpolate({ inputRange: [-200, 0, 400], outputRange: [-60, 0, 120], extrapolate: "clamp" });
+  const heroFade = scrollY.interpolate({ inputRange: [0, 320], outputRange: [1, 0.25], extrapolate: "clamp" });
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], { useNativeDriver: USE_NATIVE });
 
   const skeletonCards = [0, 1, 2].map((i) => (
@@ -744,31 +886,107 @@ export default function Home() {
           />
         }
       >
-        {/* ───── Haut de page (style magazine) ───── */}
-        <HeroEditorial t={t} width={width} desktop={desktop} insets={insets} reduce={reduce} city={city} greeting={greeting()} scrollY={scrollY} />
+        {/* ───── Haut de page ───── */}
+        <LinearGradient
+          colors={t.dark ? ["#3A1C33", "#2A1A27", t.bg] : [t.goldSoft, "#F8E3EC", t.bg]}
+          start={{ x: 1, y: 0 }}
+          end={{ x: 0, y: 1 }}
+          style={{ paddingTop: insets.top + 12, overflow: "hidden" }}
+        >
+          <FloatingOrb size={230} color={t.accent} top={28} right={width * 0.1} delay={0} reduce={reduce} />
+          <FloatingOrb size={150} color={t.gold} top={210} right={width * 0.02} delay={700} reduce={reduce} />
+          <FloatingOrb size={110} color={t.accent} bottom={160} left={width * 0.06} delay={1300} reduce={reduce} />
+          <Braid width={width} colors={[t.accent, t.gold, t.ink]} reduce={reduce} height={30} amp={6} size={6} dots={44} />
 
-        {/* ───── Recherche et chiffres ───── */}
-        <View style={[desktop && W, { paddingHorizontal: 20, paddingTop: desktop ? 40 : 28, paddingBottom: 30, gap: 18 }]}>
-          <View style={desktop ? { flexDirection: "row", gap: 28, alignItems: "flex-start" } : { gap: 18 }}>
-            <Rise reduce={reduce} style={desktop ? { width: 440 } : null}>
-              <Eyebrow>Trouve ta coiffeuse</Eyebrow>
-              <Title size={desktop ? 30 : 26} style={{ marginTop: 4, marginBottom: 14 }}>Qui te coiffe, et où ?</Title>
-              <SearchCard t={t} city={city} setCity={setCity} />
+          <View style={desktop ? [W, { flexDirection: "row", alignItems: "center", gap: 56, paddingHorizontal: 20, paddingVertical: 28 }] : null}>
+          <Animated.View style={{ paddingHorizontal: desktop ? 0 : 20, paddingTop: 8, gap: 4, flex: desktop ? 1 : undefined, opacity: heroFade, transform: [{ translateY: heroShift }] }}>
+            {desktop ? null : <Rise delay={0} reduce={reduce}>
+              <Row style={{ justifyContent: "space-between" }} wrap={false}>
+                <Row wrap={false}>
+                  <View style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: t.accent, alignItems: "center", justifyContent: "center" }}>
+                    <Ionicons name="sparkles" size={16} color={t.accentInk} />
+                  </View>
+                  <Text style={{ color: t.ink, fontWeight: "800", fontSize: 22 }}>Kitoko</Text>
+                </Row>
+                <Pressable onPress={() => router.push("/espace")} hitSlop={8} accessibilityLabel="Mon espace"
+                  style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: t.surface, borderWidth: 1, borderColor: t.line, alignItems: "center", justifyContent: "center" }}>
+                  <Ionicons name="person-outline" size={18} color={t.ink} />
+                </Pressable>
+              </Row>
+            </Rise>}
+
+            <Rise delay={90} reduce={reduce}>
+              <Text style={{ color: t.muted, fontSize: desktop ? 18 : 16, fontWeight: "600", marginTop: desktop ? 0 : 18 }}>
+                {greeting()} 👋
+              </Text>
             </Rise>
-            <View style={[{ flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between" }, desktop ? { flex: 1, paddingTop: 70 } : null]}>
-              <Counter value={salons.length} label="salons et coiffeuses" icon="cut-outline" t={t} reduce={reduce} />
-              <Counter value={CITIES.length} label="villes disponibles" icon="map-outline" t={t} reduce={reduce} />
-              <Counter value={suppliers.length} label="boutiques de mèches" icon="bag-handle-outline" t={t} reduce={reduce} />
-              <Counter value={nAvis} label="avis de clientes" icon="star-outline" t={t} reduce={reduce} />
-            </View>
+
+            <Rise delay={120} reduce={reduce}>
+              <Row wrap={false} gap={10} style={{ marginTop: 12 }}>
+                <View style={{ flexDirection: "row" }}>
+                  {PHOTOS.length
+                    ? PHOTOS.slice(0, 5).map((ph, i) => (
+                        <Image key={i} source={ph.source} resizeMode="cover"
+                          style={{ width: 40, height: 40, borderRadius: 20, borderWidth: 2, borderColor: t.surface, marginLeft: i ? -12 : 0, zIndex: 10 - i }} />
+                      ))
+                    : PEOPLE.slice(0, 5).map((person, i) => (
+                        <View key={person.id} style={{ marginLeft: i ? -12 : 0, zIndex: 10 - i }}>
+                          <PortraitAvatar person={person} size={40} reduce={reduce} seed={i} ring={t.surface} />
+                        </View>
+                      ))}
+                </View>
+                <Text style={{ color: t.muted, fontSize: 13, fontWeight: "600", flexShrink: 1 }}>
+                  Tous les cheveux,{"\n"}toutes les coiffures
+                </Text>
+              </Row>
+            </Rise>
+
+            <Rise delay={140} reduce={reduce}>
+              <View style={{ alignSelf: "flex-start", flexDirection: "row", alignItems: "center", gap: 9, marginTop: 10, paddingHorizontal: 12, paddingVertical: 8, borderRadius: R.pill, backgroundColor: t.surface, borderWidth: 1, borderColor: t.line }}>
+                <PulseDot color={t.ok} reduce={reduce} />
+                <Text style={{ color: t.muted, fontSize: 11, fontWeight: "800", letterSpacing: 0.7 }}>
+                  {`DISPONIBLE DANS ${CITIES.length} VILLES DE BELGIQUE`}
+                </Text>
+              </View>
+            </Rise>
+
+            <Rise delay={180} reduce={reduce}>
+              <Text style={{ color: t.ink, fontSize: desktop ? 60 : 44, fontWeight: "800", letterSpacing: -1.2, marginTop: 6 }}>Tes</Text>
+              <RotatingWord color={t.accent} reduce={reduce} />
+              <Text style={{ color: t.ink, fontSize: desktop ? 54 : 38, lineHeight: desktop ? 58 : 41, fontWeight: "800", letterSpacing: -1.2 }}>
+                {city ? `par les meilleures mains de ${city}.` : "par les meilleures mains de Belgique."}
+              </Text>
+            </Rise>
+
+            <Rise delay={270} reduce={reduce}>
+              <Muted style={{ fontSize: desktop ? 19 : 17, lineHeight: desktop ? 28 : 24, marginTop: 12, maxWidth: 620 }}>
+                Réserve ta coiffeuse, fais livrer tes mèches au salon avant ta séance, puis note ton rendez-vous.
+              </Muted>
+            </Rise>
+          </Animated.View>
+
+          <Rise delay={360} reduce={reduce} style={desktop ? { width: 440 } : { paddingHorizontal: 20, marginTop: 20 }}>
+            {desktop ? <Text style={{ color: t.ink, fontWeight: "800", fontSize: 20, marginBottom: 12 }}>Trouve ta coiffeuse</Text> : null}
+            <SearchCard t={t} city={city} setCity={setCity} />
+          </Rise>
           </View>
+
           {loadError ? (
-            <View style={{ padding: 12, borderRadius: 12, backgroundColor: t.surface, borderWidth: 1, borderColor: t.danger }}>
+            <View style={[desktop && W, { marginHorizontal: desktop ? "auto" : 20, marginTop: 16, padding: 12, borderRadius: 12, backgroundColor: t.surface, borderWidth: 1, borderColor: t.danger }]}>
               <Text style={{ color: t.danger, fontWeight: "800" }}>Certaines informations ne se chargent pas</Text>
               <Text selectable style={{ color: t.muted, fontSize: 12, marginTop: 6 }}>{loadError}</Text>
             </View>
           ) : null}
-        </View>
+
+          <View style={[desktop && W, { flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between", marginTop: 22, paddingHorizontal: 20 }]}>
+            <Counter value={salons.length} label="salons et coiffeuses" w={desktop ? "23.5%" : "48%"} icon="cut-outline" t={t} reduce={reduce} />
+            <Counter value={CITIES.length} label="villes disponibles" w={desktop ? "23.5%" : "48%"} icon="map-outline" t={t} reduce={reduce} />
+            <Counter value={suppliers.length} label="boutiques de mèches" w={desktop ? "23.5%" : "48%"} icon="bag-handle-outline" t={t} reduce={reduce} />
+            <Counter value={nAvis} label="avis de clientes" w={desktop ? "23.5%" : "48%"} icon="star-outline" t={t} reduce={reduce} />
+          </View>
+
+          <Braid width={width} colors={[t.accent, t.gold, t.ink]} reduce={reduce} />
+        </LinearGradient>
 
         <Marquee t={t} reduce={reduce} />
 
