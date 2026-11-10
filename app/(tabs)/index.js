@@ -590,11 +590,11 @@ export default function Home() {
           .select("id,name,city,area,styles,verified,owner_id"),
 
         supabase
-          .from("avis")
+          .from("salon_ratings")
           .select("*"),
 
         supabase
-          .from("fournisseurs")
+          .from("suppliers")
           .select("id,name,city,zones,delay,payments,products(id,color,price,in_stock)")
       ]);
 
