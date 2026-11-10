@@ -86,6 +86,39 @@ function Braid({ width, colors, reduce, height = 56, amp = 14, dots = 30, size =
     return () => loop.stop();
   }, [reduce]);
 
+  // Site web : même densité que sur un téléphone (390 px de large), quelle que soit la
+  // largeur de l'écran. Pour rester fluide avec beaucoup de points, la tresse est dessinée
+  // une fois et c'est toute la bande qui glisse d'une longueur d'onde (même rendu que l'app).
+  if (Platform.OS === "web") {
+    const stepW = 390 / dots;
+    const wave = ((2 * Math.PI) / 0.42) * stepW;
+    const n = Math.ceil((width + wave) / stepW) + 1;
+    const dotsW = [];
+    for (let s = 0; s < 3; s++) {
+      for (let i = 0; i <= n; i++) {
+        const phase = i * 0.42 + (s * 2 * Math.PI) / 3;
+        const sc = 0.8 + 0.25 * Math.cos(phase);
+        dotsW.push(
+          <View
+            key={`${s}-${i}`}
+            style={{
+              position: "absolute", left: i * stepW - size / 2, top: height / 2 - size / 2,
+              width: size, height: size, borderRadius: size / 2, backgroundColor: colors[s], opacity: 0.9,
+              transform: [{ translateY: amp * Math.sin(phase) }, { scale: sc }]
+            }}
+          />
+        );
+      }
+    }
+    return (
+      <View pointerEvents="none" style={{ height, width, overflow: "hidden" }}>
+        <Animated.View style={{ position: "absolute", left: 0, top: 0, height, width: width + wave + stepW, transform: reduce ? [] : [{ translateX: t.interpolate({ inputRange: [0, 1], outputRange: [0, -wave] }) }] }}>
+          {dotsW}
+        </Animated.View>
+      </View>
+    );
+  }
+
   const step = width / dots;
   const items = [];
 
