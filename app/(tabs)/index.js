@@ -737,6 +737,32 @@ function HeroBackground({ t, scrollY, reduce, desktop, width }) {
         />
         {desktop ? <LinearGradient colors={[a(0), a(1)]} start={{ x: 0, y: 0.7 }} end={{ x: 0, y: 1 }} style={fill} /> : null}
       </View>
+
+      {/* Site web sur ordinateur : 2e photo un peu plus bas, pour montrer les différentes origines */}
+      {desktop ? (() => {
+        const boxW = Math.max(width * 0.58, 620);
+        const cardW = 250, cardH = 330;
+        const float = k.interpolate({ inputRange: [0, 1], outputRange: [12, -12] });
+        const zoom2 = k.interpolate({ inputRange: [0, 1], outputRange: [1.14, 1.02] });
+        const ty2 = scrollY.interpolate({ inputRange: [-200, 0, 600], outputRange: [-20, 0, 70], extrapolate: "clamp" });
+        return (
+          <Animated.View
+            style={{
+              position: "absolute", left: Math.max(width - boxW + boxW * 0.26, 800), top: "40%", width: cardW, height: cardH,
+              borderRadius: 22, borderWidth: 6, borderColor: t.surface, overflow: "hidden", backgroundColor: t.surface,
+              shadowColor: "#000", shadowOpacity: 0.22, shadowRadius: 26, shadowOffset: { width: 0, height: 14 },
+              transform: [{ translateY: ty2 }, { translateY: float }, { rotate: "-4deg" }]
+            }}
+          >
+            <Animated.Image
+              source={require("../../assets/photos/fond-accueil-2.jpg")}
+              resizeMode="cover"
+              accessibilityLabel="Cliente aux cornrows dans un salon Kitoko"
+              style={{ width: cardW - 12, height: cardH - 12, transform: [{ scale: zoom2 }] }}
+            />
+          </Animated.View>
+        );
+      })() : null}
     </View>
   );
 }
