@@ -15,6 +15,7 @@ import {
   Row, Chip, Swatch, Body, Select
 } from "../../components/ui";
 import { euro, CITIES, POPULAR_CITIES } from "../../lib/constants";
+import { Portrait, PortraitAvatar, PEOPLE } from "../../components/Portrait";
 
 const CITY_KEY = "kitoko.ville";
 const USE_NATIVE = Platform.OS !== "web";
@@ -668,6 +669,57 @@ function SupplierCard({ s, t }) {
   );
 }
 
+
+// Galerie de portraits qui défile toute seule (on peut appuyer sur une coiffure)
+function PortraitGallery({ t, reduce, city }) {
+  const x = useRef(new Animated.Value(0)).current;
+  const [w, setW] = useState(0);
+  const CARD = 168;
+
+  useEffect(() => {
+    if (!w || reduce) return;
+    const loop = Animated.loop(
+      Animated.timing(x, { toValue: -w, duration: w * 32, easing: Easing.linear, useNativeDriver: USE_NATIVE })
+    );
+    loop.start();
+    return () => loop.stop();
+  }, [w, reduce]);
+
+  const row = (k) => (
+    <View key={k} style={{ flexDirection: "row", gap: 14, paddingRight: 14 }} onLayout={k === 0 ? (e) => setW(e.nativeEvent.layout.width) : undefined}>
+      {PEOPLE.map((person, i) => (
+        <PressScale
+          key={person.id}
+          onPress={() => router.push({ pathname: "/coiffeuses", params: { style: person.style, ville: city || "" } })}
+          accessibilityLabel={person.label}
+          style={{ width: CARD, borderRadius: R.lg, overflow: "hidden", borderWidth: 1, borderColor: t.line, backgroundColor: t.surface }}
+        >
+          <LinearGradient colors={person.bg} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ height: CARD * 1.12, alignItems: "center", justifyContent: "flex-end", overflow: "hidden" }}>
+            <View style={{ position: "absolute", top: -30, right: -30, width: 110, height: 110, borderRadius: 55, backgroundColor: "rgba(255,255,255,0.35)" }} />
+            <Portrait person={person} size={CARD * 0.84} reduce={reduce} seed={i + k * 3} />
+          </LinearGradient>
+          <View style={{ padding: 12, gap: 2 }}>
+            <Text style={{ color: t.ink, fontWeight: "800", fontSize: 15 }}>{person.label}</Text>
+            <Row gap={4} wrap={false}>
+              <Text style={{ color: t.accent, fontWeight: "700", fontSize: 13 }}>Trouver</Text>
+              <Ionicons name="arrow-forward" size={13} color={t.accent} />
+            </Row>
+          </View>
+        </PressScale>
+      ))}
+    </View>
+  );
+
+  return (
+    <View style={{ overflow: "hidden" }}>
+      <Animated.View style={{ flexDirection: "row", paddingLeft: 20, transform: [{ translateX: x }] }}>
+        {row(0)}
+        {row(1)}
+      </Animated.View>
+    </View>
+  );
+}
+
 function SectionHead({ title, kicker, onAll, t }) {
   return (
     <View style={{ paddingHorizontal: 20, marginTop: 34, marginBottom: 14, flexDirection: "row", alignItems: "flex-end", justifyContent: "space-between", gap: 12 }}>
@@ -842,6 +894,21 @@ export default function Home() {
               </Text>
             </Rise>
 
+            <Rise delay={120} reduce={reduce}>
+              <Row wrap={false} gap={10} style={{ marginTop: 12 }}>
+                <View style={{ flexDirection: "row" }}>
+                  {PEOPLE.slice(0, 5).map((person, i) => (
+                    <View key={person.id} style={{ marginLeft: i ? -12 : 0, zIndex: 10 - i }}>
+                      <PortraitAvatar person={person} size={40} reduce={reduce} seed={i} ring={t.surface} />
+                    </View>
+                  ))}
+                </View>
+                <Text style={{ color: t.muted, fontSize: 13, fontWeight: "600", flexShrink: 1 }}>
+                  Tous les cheveux,{"\n"}toutes les coiffures
+                </Text>
+              </Row>
+            </Rise>
+
             <Rise delay={140} reduce={reduce}>
               <View style={{ alignSelf: "flex-start", flexDirection: "row", alignItems: "center", gap: 9, marginTop: 10, paddingHorizontal: 12, paddingVertical: 8, borderRadius: R.pill, backgroundColor: t.surface, borderWidth: 1, borderColor: t.line }}>
                 <PulseDot color={t.ok} reduce={reduce} />
@@ -891,6 +958,12 @@ export default function Home() {
 
         <Marquee t={t} reduce={reduce} />
 
+        {/* ───── Galerie de portraits (toute la largeur) ───── */}
+        <View style={desktop ? W : null}>
+          <SectionHead t={t} kicker="Pour toutes et tous" title="Toutes les coiffures, tous les cheveux" />
+        </View>
+        <PortraitGallery t={t} reduce={reduce} city={city} />
+
         <View style={desktop ? W : null}>
 
         {/* ───── Villes ───── */}
@@ -924,11 +997,11 @@ export default function Home() {
         ) : (
           <Rise reduce={reduce} style={{ marginHorizontal: 20, padding: 20, borderRadius: R.lg, borderWidth: 1, borderStyle: "dashed", borderColor: t.muted, gap: 10, alignItems: "flex-start" }}>
             <Ionicons name="location-outline" size={26} color={t.accent} />
-            <Body style={{ fontWeight: "800", fontSize: 17 }}>Pas encore de salon à {city}</Body>
-            <Muted>Kitoko arrive bientôt dans ta ville. En attendant, découvre les salons du reste de la Belgique.</Muted>
+            <Body style={{ fontWeight: "800", fontSize: 17 }}>{city ? `Pas encore de salon à ${city}` : "Les premiers salons arrivent"}</Body>
+            <Muted>{city ? "Kitoko arrive bientôt dans ta ville. En attendant, découvre les salons du reste de la Belgique." : "Sois parmi les premières coiffeuses visibles sur Kitoko."}</Muted>
             <Row>
-              <Btn small title="Toute la Belgique" onPress={() => setCity("")} />
-              <Btn small kind="ghost" title={`Je coiffe à ${city}`} onPress={() => router.push("/pro/salon")} />
+              {city ? <Btn small title="Toute la Belgique" onPress={() => setCity("")} /> : null}
+              <Btn small kind={city ? "ghost" : "primary"} title={city ? `Je coiffe à ${city}` : "Inscrire mon salon"} onPress={() => router.push("/pro/salon")} />
             </Row>
           </Rise>
         )}
