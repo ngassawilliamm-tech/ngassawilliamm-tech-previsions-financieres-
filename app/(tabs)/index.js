@@ -190,7 +190,7 @@ function Marquee({ t, reduce }) {
   );
 }
 
-function Counter({ value, label, icon, t, reduce }) {
+function Counter({ value, label, icon, t, reduce, w = "48%" }) {
   const a = useRef(new Animated.Value(0)).current;
   const [shown, setShown] = useState(0);
 
@@ -207,7 +207,7 @@ function Counter({ value, label, icon, t, reduce }) {
   return (
     <View
       style={{
-        width: "48%",
+        width: w,
         marginBottom: 10,
         padding: 14,
         borderRadius: R.md,
@@ -694,6 +694,9 @@ export default function Home() {
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
   const reduce = useReduceMotion();
+  // Site web sur grand écran : le site a déjà son propre en-tête (app/_layout.js)
+  const desktop = Platform.OS === "web" && width >= 900;
+  const W = { width: "100%", maxWidth: 1240, alignSelf: "center" };
   const scrollY = useRef(new Animated.Value(0)).current;
 
   const [salons, setSalons] = useState([]);
@@ -788,7 +791,7 @@ export default function Home() {
 
   return (
     <View style={{ flex: 1, backgroundColor: t.bg }}>
-      <StickyBar scrollY={scrollY} t={t} insets={insets} city={city} onCity={() => setPickCity(true)} />
+      {desktop ? null : <StickyBar scrollY={scrollY} t={t} insets={insets} city={city} onCity={() => setPickCity(true)} />}
 
       <Animated.ScrollView
         style={{ flex: 1 }}
@@ -816,8 +819,9 @@ export default function Home() {
           <FloatingOrb size={110} color={t.accent} bottom={160} left={width * 0.06} delay={1300} reduce={reduce} />
           <Braid width={width} colors={[t.accent, t.gold, t.ink]} reduce={reduce} height={30} amp={6} size={6} dots={44} />
 
-          <Animated.View style={{ paddingHorizontal: 20, paddingTop: 8, gap: 4, opacity: heroFade, transform: [{ translateY: heroShift }] }}>
-            <Rise delay={0} reduce={reduce}>
+          <View style={desktop ? [W, { flexDirection: "row", alignItems: "center", gap: 56, paddingHorizontal: 20, paddingVertical: 28 }] : null}>
+          <Animated.View style={{ paddingHorizontal: desktop ? 0 : 20, paddingTop: 8, gap: 4, flex: desktop ? 1 : undefined, opacity: heroFade, transform: [{ translateY: heroShift }] }}>
+            {desktop ? null : <Rise delay={0} reduce={reduce}>
               <Row style={{ justifyContent: "space-between" }} wrap={false}>
                 <Row wrap={false}>
                   <View style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: t.accent, alignItems: "center", justifyContent: "center" }}>
@@ -830,10 +834,10 @@ export default function Home() {
                   <Ionicons name="person-outline" size={18} color={t.ink} />
                 </Pressable>
               </Row>
-            </Rise>
+            </Rise>}
 
             <Rise delay={90} reduce={reduce}>
-              <Text style={{ color: t.muted, fontSize: 16, fontWeight: "600", marginTop: 18 }}>
+              <Text style={{ color: t.muted, fontSize: desktop ? 18 : 16, fontWeight: "600", marginTop: desktop ? 0 : 18 }}>
                 {greeting()} 👋
               </Text>
             </Rise>
@@ -848,42 +852,46 @@ export default function Home() {
             </Rise>
 
             <Rise delay={180} reduce={reduce}>
-              <Text style={{ color: t.ink, fontSize: 44, fontWeight: "800", letterSpacing: -1.2, marginTop: 6 }}>Tes</Text>
+              <Text style={{ color: t.ink, fontSize: desktop ? 60 : 44, fontWeight: "800", letterSpacing: -1.2, marginTop: 6 }}>Tes</Text>
               <RotatingWord color={t.accent} reduce={reduce} />
-              <Text style={{ color: t.ink, fontSize: 38, lineHeight: 41, fontWeight: "800", letterSpacing: -1.2 }}>
+              <Text style={{ color: t.ink, fontSize: desktop ? 54 : 38, lineHeight: desktop ? 58 : 41, fontWeight: "800", letterSpacing: -1.2 }}>
                 {city ? `par les meilleures mains de ${city}.` : "par les meilleures mains de Belgique."}
               </Text>
             </Rise>
 
             <Rise delay={270} reduce={reduce}>
-              <Muted style={{ fontSize: 17, lineHeight: 24, marginTop: 12 }}>
+              <Muted style={{ fontSize: desktop ? 19 : 17, lineHeight: desktop ? 28 : 24, marginTop: 12, maxWidth: 620 }}>
                 Réserve ta coiffeuse, fais livrer tes mèches au salon avant ta séance, puis note ton rendez-vous.
               </Muted>
             </Rise>
           </Animated.View>
 
-          <Rise delay={360} reduce={reduce} style={{ paddingHorizontal: 20, marginTop: 20 }}>
+          <Rise delay={360} reduce={reduce} style={desktop ? { width: 440 } : { paddingHorizontal: 20, marginTop: 20 }}>
+            {desktop ? <Text style={{ color: t.ink, fontWeight: "800", fontSize: 20, marginBottom: 12 }}>Trouve ta coiffeuse</Text> : null}
             <SearchCard t={t} city={city} setCity={setCity} />
           </Rise>
+          </View>
 
           {loadError ? (
-            <View style={{ marginHorizontal: 20, marginTop: 16, padding: 12, borderRadius: 12, backgroundColor: t.surface, borderWidth: 1, borderColor: t.danger }}>
+            <View style={[desktop && W, { marginHorizontal: desktop ? "auto" : 20, marginTop: 16, padding: 12, borderRadius: 12, backgroundColor: t.surface, borderWidth: 1, borderColor: t.danger }]}>
               <Text style={{ color: t.danger, fontWeight: "800" }}>Certaines informations ne se chargent pas</Text>
               <Text selectable style={{ color: t.muted, fontSize: 12, marginTop: 6 }}>{loadError}</Text>
             </View>
           ) : null}
 
-          <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between", marginTop: 22, paddingHorizontal: 20 }}>
-            <Counter value={salons.length} label="salons et coiffeuses" icon="cut-outline" t={t} reduce={reduce} />
-            <Counter value={CITIES.length} label="villes disponibles" icon="map-outline" t={t} reduce={reduce} />
-            <Counter value={suppliers.length} label="boutiques de mèches" icon="bag-handle-outline" t={t} reduce={reduce} />
-            <Counter value={nAvis} label="avis de clientes" icon="star-outline" t={t} reduce={reduce} />
+          <View style={[desktop && W, { flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between", marginTop: 22, paddingHorizontal: 20 }]}>
+            <Counter value={salons.length} label="salons et coiffeuses" w={desktop ? "23.5%" : "48%"} icon="cut-outline" t={t} reduce={reduce} />
+            <Counter value={CITIES.length} label="villes disponibles" w={desktop ? "23.5%" : "48%"} icon="map-outline" t={t} reduce={reduce} />
+            <Counter value={suppliers.length} label="boutiques de mèches" w={desktop ? "23.5%" : "48%"} icon="bag-handle-outline" t={t} reduce={reduce} />
+            <Counter value={nAvis} label="avis de clientes" w={desktop ? "23.5%" : "48%"} icon="star-outline" t={t} reduce={reduce} />
           </View>
 
           <Braid width={width} colors={[t.accent, t.gold, t.ink]} reduce={reduce} />
         </LinearGradient>
 
         <Marquee t={t} reduce={reduce} />
+
+        <View style={desktop ? W : null}>
 
         {/* ───── Villes ───── */}
         <SectionHead t={t} kicker="Près de chez toi" title="Choisis ta ville" />
@@ -930,8 +938,8 @@ export default function Home() {
         <StyleGrid t={t} width={width} city={city} reduce={reduce} />
 
         {/* ───── Rubriques ───── */}
-        <View style={{ padding: 20, paddingTop: 30, gap: 16 }}>
-          <Rise delay={80} reduce={reduce}>
+        <View style={{ padding: 20, paddingTop: 30, gap: 16, flexDirection: desktop ? "row" : "column" }}>
+          <Rise delay={80} reduce={reduce} style={desktop ? { flex: 1 } : null}>
             <Door
               t={t} tone={t.accent} icon="cut-outline" kicker="Rubrique" title="Celles qui tressent"
               cta={salons.length ? `${salons.length} salons et coiffeuses` : "Voir les coiffeuses"}
@@ -940,7 +948,7 @@ export default function Home() {
               reduce={reduce}
             />
           </Rise>
-          <Rise delay={190} reduce={reduce}>
+          <Rise delay={190} reduce={reduce} style={desktop ? { flex: 1 } : null}>
             <Door
               t={t} tone={t.gold} icon="bag-handle-outline" kicker="Rubrique" title="Ceux qui vendent les mèches"
               cta={suppliers.length ? `${suppliers.length} boutiques` : "Voir les boutiques"}
@@ -1013,6 +1021,7 @@ export default function Home() {
             </Row>
           </LinearGradient>
         </View>
+        </View>
       </Animated.ScrollView>
 
       {/* Choix de la ville depuis la barre du haut ou « Plus de villes » */}
@@ -1026,14 +1035,19 @@ export default function Home() {
 // Fenêtre de choix de ville avec recherche
 function CityModal({ t, value, onClose, onPick, counts }) {
   const insets = useSafeAreaInsets();
+  const { width } = useWindowDimensions();
+  const desktop = Platform.OS === "web" && width >= 900;
   const [q, setQ] = useState("");
   const norm = (s) => String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
   const data = ["", ...CITIES].filter((c) => !q.trim() || norm(c || "Toute la Belgique").includes(norm(q.trim())));
 
   return (
-    <Modal visible transparent animationType="slide" onRequestClose={onClose}>
-      <Pressable style={{ flex: 1, backgroundColor: "rgba(20,10,16,.5)" }} onPress={onClose} />
-      <View style={{ backgroundColor: t.surface, borderTopLeftRadius: 22, borderTopRightRadius: 22, maxHeight: "75%", paddingBottom: insets.bottom + 8 }}>
+    <Modal visible transparent animationType={desktop ? "fade" : "slide"} onRequestClose={onClose}>
+      <Pressable style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(20,10,16,.5)" }} onPress={onClose} />
+      {desktop ? null : <View style={{ flex: 1 }} pointerEvents="none" />}
+      <View style={desktop
+        ? { backgroundColor: t.surface, borderRadius: 22, width: 480, maxHeight: "80%", alignSelf: "center", marginTop: "8%", paddingBottom: 8, shadowColor: "#000", shadowOpacity: 0.25, shadowRadius: 30 }
+        : { backgroundColor: t.surface, borderTopLeftRadius: 22, borderTopRightRadius: 22, maxHeight: "75%", paddingBottom: insets.bottom + 8 }}>
         <View style={{ alignSelf: "center", width: 40, height: 4, borderRadius: 2, backgroundColor: t.line, marginTop: 10 }} />
         <Text style={{ color: t.ink, fontWeight: "800", fontSize: 20, padding: 18, paddingBottom: 10 }}>Choisis ta ville</Text>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginHorizontal: 18, marginBottom: 8, backgroundColor: t.bg, borderRadius: R.pill, paddingHorizontal: 14, borderWidth: 1, borderColor: t.line }}>
