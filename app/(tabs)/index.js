@@ -691,6 +691,56 @@ function ZoomPhoto({ source, width, height, reduce, delay = 0 }) {
   );
 }
 
+// Photo de fond du haut de page : zoom et glissement lents + profondeur au défilement
+function HeroBackground({ t, scrollY, reduce, desktop, width }) {
+  const k = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    if (reduce) return;
+    const loop = Animated.loop(
+      Animated.sequence([
+        Animated.timing(k, { toValue: 1, duration: 14000, easing: Easing.inOut(Easing.sin), useNativeDriver: USE_NATIVE }),
+        Animated.timing(k, { toValue: 0, duration: 14000, easing: Easing.inOut(Easing.sin), useNativeDriver: USE_NATIVE })
+      ])
+    );
+    loop.start();
+    return () => loop.stop();
+  }, [reduce]);
+
+  const scale = k.interpolate({ inputRange: [0, 1], outputRange: [1.04, 1.16] });
+  const tx = k.interpolate({ inputRange: [0, 1], outputRange: [-18, 18] });
+  const ty = scrollY.interpolate({ inputRange: [-200, 0, 600], outputRange: [-50, 0, 160], extrapolate: "clamp" });
+  const rgb = t.dark ? "23,16,26" : "251,248,246";
+  const a = (x) => `rgba(${rgb},${x})`;
+  const fill = { position: "absolute", top: 0, left: 0, right: 0, bottom: 0 };
+
+  // Ordinateur : photo sur la moitié droite, fondue vers la gauche
+  // Téléphone : photo en haut, fondue vers le bas
+  const box = desktop
+    ? { position: "absolute", top: 0, bottom: 0, right: 0, width: Math.max(width * 0.58, 620) }
+    : { position: "absolute", top: 0, left: 0, right: 0, height: width * 1.15 };
+
+  return (
+    <View pointerEvents="none" style={[fill, { overflow: "hidden" }]}>
+      <View style={[box, { overflow: "hidden" }]}>
+        <Animated.Image
+          source={require("../../assets/photos/fond-accueil.jpg")}
+          resizeMode="cover"
+          accessibilityLabel="Cliente aux tresses dorées dans un salon Kitoko"
+          style={[fill, { width: "100%", height: "100%", transform: [{ translateY: ty }, { translateX: tx }, { scale }] }]}
+        />
+        <LinearGradient
+          colors={desktop ? [a(1), a(0.55), a(0.05)] : [a(0.8), a(0.62), a(0.82), a(1)]}
+          locations={desktop ? [0, 0.35, 1] : [0, 0.4, 0.7, 1]}
+          start={{ x: 0, y: 0 }}
+          end={desktop ? { x: 1, y: 0 } : { x: 0, y: 1 }}
+          style={fill}
+        />
+        {desktop ? <LinearGradient colors={[a(0), a(1)]} start={{ x: 0, y: 0.7 }} end={{ x: 0, y: 1 }} style={fill} /> : null}
+      </View>
+    </View>
+  );
+}
+
 // Galerie qui défile toute seule : vraies photos (lib/photos.js) ou portraits illustrés (on peut appuyer sur une coiffure)
 function PortraitGallery({ t, reduce, city }) {
   const x = useRef(new Animated.Value(0)).current;
@@ -886,18 +936,16 @@ export default function Home() {
       >
         {/* ───── Haut de page ───── */}
         <LinearGradient
-          colors={t.dark ? ["#3A1C33", "#2A1A27", t.bg] : [t.goldSoft, "#F8E3EC", t.bg]}
+          colors={[t.bg, t.bg]}
           start={{ x: 1, y: 0 }}
           end={{ x: 0, y: 1 }}
           style={{ paddingTop: insets.top + 12, overflow: "hidden" }}
         >
-          <FloatingOrb size={230} color={t.accent} top={28} right={width * 0.1} delay={0} reduce={reduce} />
-          <FloatingOrb size={150} color={t.gold} top={210} right={width * 0.02} delay={700} reduce={reduce} />
-          <FloatingOrb size={110} color={t.accent} bottom={160} left={width * 0.06} delay={1300} reduce={reduce} />
+          <HeroBackground t={t} scrollY={scrollY} reduce={reduce} desktop={desktop} width={width} />
           <Braid width={width} colors={[t.accent, t.gold, t.ink]} reduce={reduce} height={30} amp={6} size={6} dots={44} />
 
-          <View style={desktop ? [W, { flexDirection: "row", alignItems: "center", gap: 56, paddingHorizontal: 20, paddingVertical: 28 }] : null}>
-          <Animated.View style={{ paddingHorizontal: desktop ? 0 : 20, paddingTop: 8, gap: 4, flex: desktop ? 1 : undefined, opacity: heroFade, transform: [{ translateY: heroShift }] }}>
+          <View style={desktop ? [W, { paddingHorizontal: 20, paddingVertical: 28 }] : null}>
+          <Animated.View style={{ paddingHorizontal: desktop ? 0 : 20, paddingTop: 8, gap: 4, maxWidth: desktop ? 640 : undefined, opacity: heroFade, transform: [{ translateY: heroShift }] }}>
             {desktop ? null : <Rise delay={0} reduce={reduce}>
               <Row style={{ justifyContent: "space-between" }} wrap={false}>
                 <Row wrap={false}>
@@ -961,8 +1009,7 @@ export default function Home() {
             </Rise>
           </Animated.View>
 
-          <Rise delay={360} reduce={reduce} style={desktop ? { width: 440 } : { paddingHorizontal: 20, marginTop: 20 }}>
-            {desktop ? <Text style={{ color: t.ink, fontWeight: "800", fontSize: 20, marginBottom: 12 }}>Trouve ta coiffeuse</Text> : null}
+          <Rise delay={360} reduce={reduce} style={desktop ? { width: 560, marginTop: 28 } : { paddingHorizontal: 20, marginTop: 20 }}>
             <SearchCard t={t} city={city} setCity={setCity} />
           </Rise>
           </View>
