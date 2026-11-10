@@ -443,8 +443,9 @@ function CityStrip({ t, city, setCity, counts, onMore, reduce }) {
     <FlatList
       ref={ref}
       horizontal
-      data={[...list, "__more"]}
+      data={["__more", ...list]}
       keyExtractor={(c) => c || "__all"}
+      initialNumToRender={list.length + 1}
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{ paddingHorizontal: 20, gap: 8 }}
       renderItem={({ item: c, index }) => {
@@ -453,8 +454,8 @@ function CityStrip({ t, city, setCity, counts, onMore, reduce }) {
             <Rise delay={index * 40} reduce={reduce} from={12}>
               <PressScale onPress={onMore} accessibilityLabel="Toutes les villes"
                 style={{ flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: 14, paddingVertical: 10, borderRadius: R.pill, borderWidth: 1, borderStyle: "dashed", borderColor: t.muted }}>
-                <Ionicons name="add" size={16} color={t.ink} />
-                <Text style={{ color: t.ink, fontWeight: "700" }}>Plus de villes</Text>
+                <Ionicons name="search" size={15} color={t.ink} />
+                <Text style={{ color: t.ink, fontWeight: "700" }}>Toutes les villes ({CITIES.length})</Text>
               </PressScale>
             </Rise>
           );
