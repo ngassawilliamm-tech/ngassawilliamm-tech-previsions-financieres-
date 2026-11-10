@@ -1,0 +1,20 @@
+{
+  "siteUrl": "https://kitoko.be",
+  "image": "/og-image.jpg",
+  "pages": {
+    "/": {
+      "title": "Kitoko – Tresses africaines, box braids et coiffeuses afro en Belgique",
+      "description": "Trouve et réserve ta coiffeuse afro à Bruxelles, Liège, Anvers, Charleroi et dans 67 villes de Belgique : box braids, knotless, cornrows, locks, twists. Fais livrer tes mèches au salon avant ta séance."
+    },
+    "/coiffeuses": {
+      "title": "Coiffeuses afro et salons de tresses en Belgique | Kitoko",
+      "description": "Compare et réserve les meilleures coiffeuses afro de Belgique : box braids, knotless, cornrows, locks, twists, tissage. En salon, à domicile ou chez la coiffeuse, à Bruxelles, Liège, Anvers et plus."
+    },
+    "/meches": {
+      "title": "Mèches pour tresses livrées au salon – X-pression, Kanekalon, afro kinky | Kitoko",
+      "description": "Achète tes mèches pour box braids, knotless, twists et crochet braids auprès de boutiques en Belgique, et fais-les livrer au salon avant ta séance. Bruxelles, Liège, Anvers et plus."
+    },
+    "/salon/[id]": { "title": "Salon de coiffure afro | Kitoko", "description": "Coiffeuse afro sur Kitoko : coiffures proposées, avis des clientes et réservation en ligne." }
+  },
+  "noindex": ["/espace", "/panier", "/connexion", "/pro/salon", "/pro/boutique", "/reserver/[id]", "/avis/[bookingId]", "/+not-found", "/_sitemap"]
+}

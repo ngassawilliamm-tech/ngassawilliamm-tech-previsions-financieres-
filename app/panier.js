@@ -7,6 +7,7 @@ import { useCart } from "../lib/cart";
 import { useTheme, R } from "../lib/theme";
 import { CITIES, euro, todayStr, addDays, shortDate, frDate } from "../lib/constants";
 import { Screen, Title, Muted, Label, Card, Row, Btn, Field, Select, ErrorText, Body, LinkBtn, Empty, Chip } from "../components/ui";
+import { Seo } from "../lib/seo";
 
 function Radio({ label, on, onPress, t }) {
   return (
@@ -53,6 +54,7 @@ export default function Panier() {
 
   if (done) return (
     <Screen>
+      <Seo title="Mon panier" noindex />
       <Card style={{ backgroundColor: t.okSoft, borderColor: t.okSoft }}>
         <Title size={22}>Commande envoyée</Title>
         <Muted>Le fournisseur reçoit une notification. Tu suis la livraison dans « Mon espace ».{done.dest.kind === "salon" ? " Le salon voit aussi le colis attendu." : ""}</Muted>

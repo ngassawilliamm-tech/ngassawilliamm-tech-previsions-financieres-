@@ -6,6 +6,8 @@ import { useAuth } from "../../lib/auth";
 import { useTheme } from "../../lib/theme";
 import { MODE_LABEL, waNumber, telLink, frDate } from "../../lib/constants";
 import { Screen, Card, Row, Avatar, Title, Muted, Body, Chip, Rating, Btn, Stars, Loading, Label, LinkBtn } from "../../components/ui";
+import { Seo, SITE_URL } from "../../lib/seo";
+import Head from "expo-router/head";
 
 export default function Salon() {
   const { id } = useLocalSearchParams(); const t = useTheme(); const { user, isAdmin } = useAuth();
@@ -29,6 +31,12 @@ export default function Salon() {
   return (
     <Screen>
       <Stack.Screen options={{ title: p.name }} />
+      <Seo
+        title={`${p.name} – coiffeuse afro${p.city ? " à " + p.city : ""}`}
+        description={`${p.name}${p.area ? ", " + p.area : ""}${p.city ? " à " + p.city : ""} : ${(p.styles || []).slice(0, 5).join(", ") || "tresses et coiffure afro"}. Avis des clientes et réservation en ligne sur Kitoko.`}
+        path={`/salon/${p.id}`}
+      />
+      <SalonJsonLd p={p} rating={rating} />
       <Row wrap={false} gap={14}>
         <Avatar name={p.name} size={64} />
         <View style={{ flex: 1, gap: 4 }}>
@@ -76,5 +84,27 @@ export default function Salon() {
       ))}
       {canEdit ? <Btn kind="ghost" title="Modifier cette fiche" onPress={() => router.push({ pathname: "/pro/salon", params: { id: p.id } })} /> : null}
     </Screen>
+  );
+}
+
+// Fiche « salon de coiffure » lisible par Google (résultats locaux, étoiles)
+function SalonJsonLd({ p, rating }) {
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "HairSalon",
+    name: p.name,
+    url: SITE_URL + "/salon/" + p.id,
+    address: { "@type": "PostalAddress", streetAddress: p.address || undefined, addressLocality: p.city, addressCountry: "BE" },
+    telephone: p.phone || undefined,
+    priceRange: p.price_from ? `À partir de ${p.price_from} €` : undefined,
+    knowsAbout: p.styles || undefined
+  };
+  if (rating && Number(rating.n_reviews) > 0) {
+    data.aggregateRating = { "@type": "AggregateRating", ratingValue: Number(rating.avg_stars), reviewCount: Number(rating.n_reviews), bestRating: 5 };
+  }
+  return (
+    <Head>
+      <script type="application/ld+json">{JSON.stringify(data)}</script>
+    </Head>
   );
 }

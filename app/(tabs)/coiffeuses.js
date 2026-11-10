@@ -5,6 +5,7 @@ import { supabase } from "../../lib/supabase";
 import { useTheme } from "../../lib/theme";
 import { CITIES, STYLES, MODE_LABEL } from "../../lib/constants";
 import { Card, Row, Avatar, Body, Muted, Chip, Rating, Select, Empty, Loading, Btn } from "../../components/ui";
+import { Seo } from "../../lib/seo";
 
 export default function Coiffeuses() {
   const t = useTheme();
@@ -52,6 +53,12 @@ export default function Coiffeuses() {
   );
 
   return (
+    <>
+    <Seo
+      title={style ? `${style}${city ? " à " + city : " en Belgique"} – coiffeuses afro` : city ? `Coiffeuses afro et tresses à ${city}` : "Coiffeuses afro et salons de tresses en Belgique"}
+      description={`Compare et réserve les meilleures coiffeuses afro${city ? " à " + city : " de Belgique"} : box braids, knotless, cornrows, locks, twists, tissage. En salon, à domicile ou chez la coiffeuse.`}
+      path="/coiffeuses"
+    />
     <FlatList style={{ flex: 1, backgroundColor: t.bg }} contentContainerStyle={{ padding: 16, gap: 12, paddingBottom: 40, width: "100%", maxWidth: 1040, alignSelf: "center" }}
       data={list} keyExtractor={(p) => p.id} ListHeaderComponent={header}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={async () => { setRefreshing(true); await load(); setRefreshing(false); }} tintColor={t.accent} />}
@@ -78,5 +85,6 @@ export default function Coiffeuses() {
           </Row>
         </Card>
       )} />
+    </>
   );
 }

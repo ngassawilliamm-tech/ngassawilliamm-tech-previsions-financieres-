@@ -3,6 +3,7 @@ import { View, Text, Pressable, TextInput, Modal, FlatList, StyleSheet, Activity
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme, R } from "../lib/theme";
 import { initials, colorFor, swatchColor } from "../lib/constants";
+import { useScreenWidth } from "../lib/useScreenWidth";
 
 export const FONT = { display: { fontWeight: "800", letterSpacing: -0.6 }, bold: { fontWeight: "700" } };
 
@@ -190,7 +191,7 @@ export function Loading() {
 
 export function Screen({ children, scroll = true, refreshControl, contentStyle }) {
   const t = useTheme();
-  const { width } = useWindowDimensions();
+  const { width } = useScreenWidth();
   const desktop = width >= 900;
   const contentWidth = desktop
     ? { width: "100%", maxWidth: 1040, alignSelf: "center" }

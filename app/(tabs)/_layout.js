@@ -1,13 +1,14 @@
 import { Tabs } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "../../lib/icons";
 import { Platform, useWindowDimensions } from "react-native";
 import { useTheme } from "../../lib/theme";
 import { useActivity } from "../../lib/activity";
+import { useScreenWidth } from "../../lib/useScreenWidth";
 
 export default function TabsLayout() {
   const t = useTheme();
   const { pending } = useActivity();
-  const { width } = useWindowDimensions();
+  const { width } = useScreenWidth();
   const desktopWeb = Platform.OS === "web" && width >= 900;
   const icon = (name) => ({ color, size }) => <Ionicons name={name} color={color} size={size} />;
 

@@ -6,6 +6,7 @@ import { useAuth } from "../../lib/auth";
 import { useTheme, R } from "../../lib/theme";
 import { DURATION, TIMES, todayStr, addDays, shortDate, frDate, fmtDur } from "../../lib/constants";
 import { Screen, Title, Muted, Label, Chip, Row, Field, Btn, ErrorText, Card, Loading } from "../../components/ui";
+import { Seo } from "../../lib/seo";
 
 export default function Reserver() {
   const { id } = useLocalSearchParams(); const t = useTheme(); const { user, profile } = useAuth();
@@ -20,6 +21,7 @@ export default function Reserver() {
   if (!salon) return <Screen><Loading /></Screen>;
   if (!user) return (
     <Screen>
+      <Seo title="Prendre rendez-vous" noindex />
       <Title size={24}>Connecte-toi pour réserver</Title>
       <Muted>Avec ton adresse e-mail et un mot de passe.</Muted>
       <Btn title="Me connecter" onPress={() => router.push("/connexion")} />

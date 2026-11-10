@@ -7,6 +7,7 @@ import { useActivity } from "../../lib/activity";
 import { useTheme, R } from "../../lib/theme";
 import { BOOKING_STATUS, ORDER_STATUS, todayStr, frDate, fmtDur, euro, waNumber } from "../../lib/constants";
 import { Screen, Title, Muted, Body, Card, Row, Btn, Chip, LinkBtn, Empty, Label, Eyebrow } from "../../components/ui";
+import { Seo } from "../../lib/seo";
 
 const pad = (n) => String(n).padStart(2, "0");
 function gcal(title, date, time, durMin, details, location) {
@@ -171,6 +172,7 @@ export default function Espace() {
 
   if (!user) return (
     <Screen>
+      <Seo title="Mon espace" path="/espace" noindex />
       <Eyebrow>Mon espace</Eyebrow>
       <Title>Connecte-toi pour suivre tes rendez-vous et tes commandes</Title>
       <Muted>Avec ton adresse e-mail et un mot de passe.</Muted>

@@ -6,6 +6,7 @@ import { useAuth } from "../../lib/auth";
 import { useTheme } from "../../lib/theme";
 import { CITIES, STYLES, MODE_LABEL } from "../../lib/constants";
 import { Screen, Title, Muted, Label, Field, Select, MultiChips, Btn, ErrorText, Row, Body } from "../../components/ui";
+import { Seo } from "../../lib/seo";
 
 const LANGS = ["Français", "Néerlandais", "Anglais", "Lingala", "Swahili", "Portugais", "Arabe", "Wolof"];
 
@@ -46,6 +47,7 @@ export default function ProSalon() {
 
   return (
     <Screen>
+      <Seo title="Mon salon" noindex />
       <Title size={24}>{editId ? "Modifier la fiche" : "Créer mon espace salon"}</Title>
       {!editId ? <Muted>Les clientes te trouvent, réservent, et tu valides les rendez-vous dans « Mon espace ». Gratuit, sans commission.</Muted> : null}
       <Field label="Nom du salon ou ton nom" value={f.name} onChangeText={set("name")} maxLength={60} placeholder="ex. Salon Nadège Beauty" />

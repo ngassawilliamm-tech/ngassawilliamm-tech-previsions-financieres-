@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /panier
+Disallow: /connexion
+Disallow: /espace
+Disallow: /pro/
+Disallow: /avis/
+Disallow: /reserver/
+
+Sitemap: https://kitoko.be/sitemap.xml

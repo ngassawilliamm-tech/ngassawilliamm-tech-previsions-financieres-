@@ -6,6 +6,7 @@ import { useTheme } from "../../lib/theme";
 import { useCart } from "../../lib/cart";
 import { CITIES, MECHE_TYPES, MECHE_COLORS, euro } from "../../lib/constants";
 import { Card, Row, Avatar, Body, Muted, Chip, Select, Empty, Loading, Btn, Swatch, Title, LinkBtn } from "../../components/ui";
+import { Seo } from "../../lib/seo";
 
 const SHORT = { "Espèces à la livraison": "Espèces", "Bancontact (carte) à la livraison": "Bancontact", "Payconiq à la livraison": "Payconiq", "Virement bancaire avant livraison": "Virement", "Payconiq avant livraison": "Payconiq (avant)" };
 
@@ -63,6 +64,11 @@ export default function Meches() {
 
   return (
     <View style={{ flex: 1, backgroundColor: t.bg }}>
+      <Seo
+        title="Mèches pour tresses livrées au salon – X-pression, Kanekalon, afro kinky"
+        description="Achète tes mèches pour box braids, knotless, twists et crochet braids auprès de boutiques en Belgique, et fais-les livrer au salon avant ta séance. Bruxelles, Liège, Anvers et plus."
+        path="/meches"
+      />
       <Stack.Screen options={{ headerRight: () => cart.count ? <Pressable onPress={() => router.push("/panier")} style={{ marginRight: 16 }}><Text style={{ color: t.accent, fontWeight: "800" }}>Panier · {cart.count}</Text></Pressable> : null }} />
       <FlatList contentContainerStyle={{ padding: 16, gap: 12, paddingBottom: cart.count ? 110 : 40, width: "100%", maxWidth: 1120, alignSelf: "center" }}
         data={products} keyExtractor={({ p }) => p.id} ListHeaderComponent={header}

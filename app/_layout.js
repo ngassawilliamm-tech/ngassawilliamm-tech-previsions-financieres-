@@ -1,12 +1,13 @@
 import { Stack, router, usePathname } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "../lib/icons";
 import { Image, Platform, Pressable, Text, View, useWindowDimensions } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AuthProvider } from "../lib/auth";
 import { CartProvider, useCart } from "../lib/cart";
 import { ActivityProvider, useActivity } from "../lib/activity";
 import { useTheme } from "../lib/theme";
+import { useScreenWidth } from "../lib/useScreenWidth";
 
 function DesktopNavItem({ label, icon, href, active, t, badge }) {
   return (
@@ -92,7 +93,7 @@ function Nav() {
   const pathname = usePathname();
   const { pending } = useActivity();
   const cart = useCart();
-  const { width } = useWindowDimensions();
+  const { width } = useScreenWidth();
   const desktopWeb = Platform.OS === "web" && width >= 900;
 
   const header = {

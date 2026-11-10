@@ -2,6 +2,7 @@ import { useState } from "react";
 import { router } from "expo-router";
 import { supabase } from "../lib/supabase";
 import { Screen, Title, Muted, Field, Btn, ErrorText, Row, Chip } from "../components/ui";
+import { Seo } from "../lib/seo";
 
 // Connexion par e-mail et mot de passe (le code par e-mail reviendra avec un service d'envoi d'e-mails dédié)
 export default function Connexion() {
@@ -38,6 +39,7 @@ export default function Connexion() {
 
   return (
     <Screen>
+      <Seo title="Connexion" noindex />
       <Title size={26}>{mode === "connexion" ? "Connexion à Kitoko" : "Créer mon compte"}</Title>
       <Row>
         <Chip label="J'ai un compte" active={mode === "connexion"} onPress={() => { setMode("connexion"); setErr(""); }} />

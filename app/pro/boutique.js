@@ -6,6 +6,7 @@ import { useAuth } from "../../lib/auth";
 import { useTheme } from "../../lib/theme";
 import { CITIES, MECHE_TYPES, MECHE_COLORS, PAY_METHODS, DELAYS, euro } from "../../lib/constants";
 import { Screen, Title, Muted, Label, Field, Select, MultiChips, Btn, ErrorText, Row, Body, Card, Swatch, LinkBtn } from "../../components/ui";
+import { Seo } from "../../lib/seo";
 
 export default function Boutique() {
   const t = useTheme(); const { user, mySupplier, refreshRoles } = useAuth();
@@ -53,6 +54,7 @@ export default function Boutique() {
 
   return (
     <Screen>
+      <Seo title="Ma boutique" noindex />
       <Title size={24}>{mySupplier ? "Ma boutique" : "Ouvrir ma boutique de mèches"}</Title>
       {!mySupplier ? <Muted>Tes mèches sont proposées aux clientes et aux salons quand elles réservent. Tu livres au salon, avant le rendez-vous.</Muted> : null}
       <Field label="Nom de la boutique" value={f.name} onChangeText={set("name")} maxLength={60} placeholder="ex. Afro Hair Shop Matonge" />

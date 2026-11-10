@@ -58,7 +58,10 @@
     "web": {
       "favicon": "./assets/favicon.png",
       "name": "Kitoko",
-      "themeColor": "#7B1E48"
+      "themeColor": "#7B1E48",
+      "output": "static",
+      "description": "Trouve et réserve ta coiffeuse afro en Belgique : box braids, knotless, cornrows, locks, twists. Mèches livrées au salon.",
+      "lang": "fr"
     }
   }
 }

@@ -4,7 +4,7 @@ import {
   useWindowDimensions, AccessibilityInfo, RefreshControl
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "../../lib/icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { router, useFocusEffect } from "expo-router";
@@ -16,7 +16,9 @@ import {
 } from "../../components/ui";
 import { euro, CITIES, POPULAR_CITIES } from "../../lib/constants";
 import { Portrait, PortraitAvatar, PEOPLE } from "../../components/Portrait";
+import { Seo } from "../../lib/seo";
 import { PHOTOS } from "../../lib/photos";
+import { useScreenWidth } from "../../lib/useScreenWidth";
 
 const CITY_KEY = "kitoko.ville";
 const USE_NATIVE = Platform.OS !== "web";
@@ -90,6 +92,8 @@ function Braid({ width, colors, reduce, height = 56, amp = 14, dots = 30, size =
   // largeur de l'écran. Pour rester fluide avec beaucoup de points, la tresse est dessinée
   // une fois et c'est toute la bande qui glisse d'une longueur d'onde (même rendu que l'app).
   if (Platform.OS === "web") {
+    // Largeur encore inconnue (page en cours de génération) : rien à dessiner
+    if (!width) return <View pointerEvents="none" style={{ height, width: "100%" }} />;
     const stepW = 390 / dots;
     const wave = ((2 * Math.PI) / 0.42) * stepW;
     const n = Math.ceil((width + wave) / stepW) + 1;
@@ -809,7 +813,7 @@ function HeroBackground({ t, scrollY, reduce, desktop, width }) {
 
 // Visionneuse plein écran : la photo en entier, on glisse pour passer à la suivante
 function PhotoViewer({ items, start, onClose, city }) {
-  const { width, height } = useWindowDimensions();
+  const { width, height } = useScreenWidth();
   const insets = useSafeAreaInsets();
   const listRef = useRef(null);
   const [i, setI] = useState(start);
@@ -1021,7 +1025,7 @@ function SectionHead({ title, kicker, onAll, t }) {
 export default function Home() {
   const t = useTheme();
   const insets = useSafeAreaInsets();
-  const { width } = useWindowDimensions();
+  const { width } = useScreenWidth();
   const reduce = useReduceMotion();
   // Site web sur grand écran : le site a déjà son propre en-tête (app/_layout.js)
   const desktop = Platform.OS === "web" && width >= 900;
@@ -1036,6 +1040,10 @@ export default function Home() {
   const [loadError, setLoadError] = useState("");
   const [city, setCityState] = useState("");
   const [pickCity, setPickCity] = useState(false);
+  // Salutation selon l'heure : calculée une fois la page ouverte (sur le site, la page est
+  // générée à l'avance et l'heure de génération n'est pas celle de la visiteuse)
+  const [hello, setHello] = useState("Bienvenue");
+  useEffect(() => { setHello(greeting()); }, []);
 
   // Ville préférée gardée en mémoire sur le téléphone
   useEffect(() => {
@@ -1120,6 +1128,7 @@ export default function Home() {
 
   return (
     <View style={{ flex: 1, backgroundColor: t.bg }}>
+      <Seo path="/" />
       {desktop ? null : <StickyBar scrollY={scrollY} t={t} insets={insets} city={city} onCity={() => setPickCity(true)} />}
 
       <Animated.ScrollView
@@ -1163,7 +1172,7 @@ export default function Home() {
 
             <Rise delay={90} reduce={reduce}>
               <Text style={{ color: t.muted, fontSize: desktop ? 18 : 16, fontWeight: "600", marginTop: desktop ? 0 : 18 }}>
-                {greeting()} 👋
+                {hello} 👋
               </Text>
             </Rise>
 
@@ -1385,7 +1394,7 @@ export default function Home() {
 // Fenêtre de choix de ville avec recherche
 function CityModal({ t, value, onClose, onPick, counts }) {
   const insets = useSafeAreaInsets();
-  const { width } = useWindowDimensions();
+  const { width } = useScreenWidth();
   const desktop = Platform.OS === "web" && width >= 900;
   const [q, setQ] = useState("");
   const norm = (s) => String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");

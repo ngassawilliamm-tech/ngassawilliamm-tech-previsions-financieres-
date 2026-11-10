@@ -5,6 +5,7 @@ import { supabase } from "../../lib/supabase";
 import { useTheme } from "../../lib/theme";
 import { frDate } from "../../lib/constants";
 import { Screen, Title, Muted, Label, Row, Chip, Field, Btn, ErrorText, Loading } from "../../components/ui";
+import { Seo } from "../../lib/seo";
 
 export default function Avis() {
   const { bookingId } = useLocalSearchParams(); const t = useTheme();
@@ -27,6 +28,7 @@ export default function Avis() {
 
   return (
     <Screen>
+      <Seo title="Mon avis" noindex />
       <Title size={24}>{b.salons?.name}</Title>
       <Muted>{b.service} · {frDate(b.date)}</Muted>
       <Label>Ta note</Label>
