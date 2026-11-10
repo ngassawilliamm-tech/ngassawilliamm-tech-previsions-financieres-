@@ -1,0 +1,13 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/salon/:id", "destination": "/salon/[id].html" },
+    { "source": "/reserver/:id", "destination": "/reserver/[id].html" },
+    { "source": "/avis/:bookingId", "destination": "/avis/[bookingId].html" }
+  ],
+  "headers": [
+    { "source": "/_expo/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
+    { "source": "/assets/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] }
+  ]
+}
