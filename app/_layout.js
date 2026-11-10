@@ -1,7 +1,7 @@
 import { Stack, router, usePathname } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { Ionicons } from "@expo/vector-icons";
-import { Platform, Pressable, Text, View, useWindowDimensions } from "react-native";
+import { Image, Platform, Pressable, Text, View, useWindowDimensions } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AuthProvider } from "../lib/auth";
 import { CartProvider, useCart } from "../lib/cart";
@@ -54,9 +54,7 @@ function DesktopHeader({ t, pathname, pending, cartCount }) {
           onPress={() => router.replace("/")}
           style={{ flexDirection: "row", alignItems: "center", gap: 10, minWidth: 150 }}
         >
-          <View style={{ width: 34, height: 34, borderRadius: 17, backgroundColor: t.accent, alignItems: "center", justifyContent: "center" }}>
-            <Ionicons name="sparkles" size={18} color={t.accentInk} />
-          </View>
+          <Image source={require("../assets/logo.png")} accessibilityLabel="Logo Kitoko" style={{ width: 38, height: 38, borderRadius: 9 }} />
           <View>
             <Text style={{ color: t.ink, fontSize: 21, fontWeight: "900", letterSpacing: -0.5 }}>KITOKO</Text>
             <Text style={{ color: t.muted, fontSize: 10, letterSpacing: 1.1, textTransform: "uppercase" }}>Beauté afro en Belgique</Text>

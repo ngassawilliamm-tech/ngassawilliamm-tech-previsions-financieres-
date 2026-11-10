@@ -378,9 +378,7 @@ function StickyBar({ scrollY, t, insets, city, onCity }) {
       }}
     >
       <Row wrap={false} gap={8}>
-        <View style={{ width: 26, height: 26, borderRadius: 13, backgroundColor: t.accent, alignItems: "center", justifyContent: "center" }}>
-          <Ionicons name="sparkles" size={14} color={t.accentInk} />
-        </View>
+        <Image source={require("../../assets/logo.png")} accessibilityLabel="Logo Kitoko" style={{ width: 28, height: 28, borderRadius: 7 }} />
         <Text style={{ color: t.ink, fontWeight: "800", fontSize: 18 }}>Kitoko</Text>
       </Row>
       <Pressable onPress={onCity} hitSlop={8} style={{ flexDirection: "row", alignItems: "center", gap: 5, paddingHorizontal: 12, paddingVertical: 7, borderRadius: R.pill, backgroundColor: t.chip }}>
@@ -903,9 +901,7 @@ export default function Home() {
             {desktop ? null : <Rise delay={0} reduce={reduce}>
               <Row style={{ justifyContent: "space-between" }} wrap={false}>
                 <Row wrap={false}>
-                  <View style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: t.accent, alignItems: "center", justifyContent: "center" }}>
-                    <Ionicons name="sparkles" size={16} color={t.accentInk} />
-                  </View>
+                  <Image source={require("../../assets/logo.png")} accessibilityLabel="Logo Kitoko" style={{ width: 34, height: 34, borderRadius: 8 }} />
                   <Text style={{ color: t.ink, fontWeight: "800", fontSize: 22 }}>Kitoko</Text>
                 </Row>
                 <Pressable onPress={() => router.push("/espace")} hitSlop={8} accessibilityLabel="Mon espace"

@@ -45,7 +45,6 @@
     },
     "extra": {
       "supabaseUrl": "https://xjkdutbrnbvcpjahxdfj.supabase.co",
- 
       "router": {
         "asyncRoutes": {
           "web": true
@@ -55,6 +54,11 @@
         "projectId": "61238028-9dca-41be-9997-85d7f2b86eb8"
       }
     },
-    "owner": "williamsmith4004"
+    "owner": "williamsmith4004",
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "name": "Kitoko",
+      "themeColor": "#7B1E48"
+    }
   }
 }
