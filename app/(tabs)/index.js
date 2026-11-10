@@ -713,43 +713,59 @@ function HeroBackground({ t, scrollY, reduce, desktop, width }) {
   const a = (x) => `rgba(${rgb},${x})`;
   const fill = { position: "absolute", top: 0, left: 0, right: 0, bottom: 0 };
 
-  // Site web sur ordinateur : les deux photos (même taille) fusionnées en une seule image,
-  // avec un fondu progressif de l'une à l'autre au centre (assets/photos/fond-duo.jpg)
-  if (desktop) {
-    // L'image commence juste à droite du texte (colonne de 640 px dans le conteneur de 1240 px)
-    const textRight = Math.max(0, (width - 1240) / 2) + 20 + 640;
-    const left0 = textRight - 30;
-    const scaleD = k.interpolate({ inputRange: [0, 1], outputRange: [1.0, 1.07] });
-    const txD = k.interpolate({ inputRange: [0, 1], outputRange: [-10, 10] });
-    return (
-      <View pointerEvents="none" style={[fill, { overflow: "hidden" }]}>
-        <View style={{ position: "absolute", top: 0, bottom: 0, left: left0, right: 0, overflow: "hidden" }}>
-          <Animated.Image
-            source={require("../../assets/photos/fond-duo.jpg")}
-            resizeMode="cover"
-            accessibilityLabel="Deux clientes aux tresses dans un salon Kitoko"
-            style={[fill, { width: "100%", height: "100%", transform: [{ translateY: ty }, { translateX: txD }, { scale: scaleD }] }]}
-          />
-          {/* Fondu uniquement sur les bords extérieurs */}
-          <LinearGradient colors={[a(1), a(0), a(0), a(0.6)]} locations={[0, 0.1, 0.92, 1]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={fill} />
-          <LinearGradient colors={[a(0.9), a(0), a(0), a(1)]} locations={[0, 0.1, 0.75, 1]} start={{ x: 0, y: 0 }} end={{ x: 0, y: 1 }} style={fill} />
-        </View>
-      </View>
-    );
-  }
+  // Ordinateur : la photo commence juste à droite du texte (colonne de 640 px dans le
+  // conteneur de 1240 px), pour que le logo KITOKO du salon reste bien visible
+  // Téléphone : photo en haut, fondue vers le bas
+  const textRight = Math.max(0, (width - 1240) / 2) + 20 + 640;
+  const boxLeft = textRight - 40;
+  const boxW = width - boxLeft;
+  const box = desktop
+    ? { position: "absolute", top: 0, bottom: 0, left: boxLeft, right: 0 }
+    : { position: "absolute", top: 0, left: 0, right: 0, height: width * 1.15 };
 
-  // Téléphone : une photo en haut, fondue vers le bas
   return (
     <View pointerEvents="none" style={[fill, { overflow: "hidden" }]}>
-      <View style={{ position: "absolute", top: 0, left: 0, right: 0, height: width * 1.15, overflow: "hidden" }}>
+      <View style={[box, { overflow: "hidden" }]}>
         <Animated.Image
           source={require("../../assets/photos/fond-accueil.jpg")}
           resizeMode="cover"
           accessibilityLabel="Cliente aux tresses dorées dans un salon Kitoko"
           style={[fill, { width: "100%", height: "100%", transform: [{ translateY: ty }, { translateX: tx }, { scale }] }]}
         />
-        <LinearGradient colors={[a(0.8), a(0.62), a(0.82), a(1)]} locations={[0, 0.4, 0.7, 1]} start={{ x: 0, y: 0 }} end={{ x: 0, y: 1 }} style={fill} />
+        <LinearGradient
+          colors={desktop ? [a(1), a(0.35), a(0), a(0)] : [a(0.8), a(0.62), a(0.82), a(1)]}
+          locations={desktop ? [0, 0.08, 0.22, 1] : [0, 0.4, 0.7, 1]}
+          start={{ x: 0, y: 0 }}
+          end={desktop ? { x: 1, y: 0 } : { x: 0, y: 1 }}
+          style={fill}
+        />
+        {desktop ? <LinearGradient colors={[a(0), a(1)]} start={{ x: 0, y: 0.7 }} end={{ x: 0, y: 1 }} style={fill} /> : null}
       </View>
+
+      {/* Site web sur ordinateur : petite photo un peu plus bas, pour montrer les différentes origines */}
+      {desktop ? (() => {
+        const cardW = 250, cardH = 330;
+        const float = k.interpolate({ inputRange: [0, 1], outputRange: [12, -12] });
+        const zoom2 = k.interpolate({ inputRange: [0, 1], outputRange: [1.14, 1.02] });
+        const ty2 = scrollY.interpolate({ inputRange: [-200, 0, 600], outputRange: [-20, 0, 70], extrapolate: "clamp" });
+        return (
+          <Animated.View
+            style={{
+              position: "absolute", left: boxLeft + Math.min(boxW * 0.2, 220), top: "42%", width: cardW, height: cardH,
+              borderRadius: 22, borderWidth: 6, borderColor: t.surface, overflow: "hidden", backgroundColor: t.surface,
+              shadowColor: "#000", shadowOpacity: 0.22, shadowRadius: 26, shadowOffset: { width: 0, height: 14 },
+              transform: [{ translateY: ty2 }, { translateY: float }, { rotate: "-4deg" }]
+            }}
+          >
+            <Animated.Image
+              source={require("../../assets/photos/carte-accueil.jpg")}
+              resizeMode="cover"
+              accessibilityLabel="Cliente aux Fulani braids avec perles dorées"
+              style={{ width: cardW - 12, height: cardH - 12, transform: [{ scale: zoom2 }] }}
+            />
+          </Animated.View>
+        );
+      })() : null}
     </View>
   );
 }
