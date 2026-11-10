@@ -774,57 +774,193 @@ function HeroBackground({ t, scrollY, reduce, desktop, width }) {
   );
 }
 
-// Galerie qui défile toute seule : vraies photos (lib/photos.js) ou portraits illustrés (on peut appuyer sur une coiffure)
-function PortraitGallery({ t, reduce, city }) {
-  const x = useRef(new Animated.Value(0)).current;
-  const [w, setW] = useState(0);
-  const CARD = 168;
+// Visionneuse plein écran : la photo en entier, on glisse pour passer à la suivante
+function PhotoViewer({ items, start, onClose, city }) {
+  const { width, height } = useWindowDimensions();
+  const insets = useSafeAreaInsets();
+  const listRef = useRef(null);
+  const [i, setI] = useState(start);
+  const big = width >= 700;
 
+  const go = (n) => {
+    const k = Math.max(0, Math.min(items.length - 1, n));
+    listRef.current?.scrollToIndex({ index: k, animated: true });
+    setI(k);
+  };
+
+  // Clavier sur ordinateur : flèches gauche/droite et Échap
   useEffect(() => {
-    if (!w || reduce) return;
-    const loop = Animated.loop(
-      Animated.timing(x, { toValue: -w, duration: w * 32, easing: Easing.linear, useNativeDriver: USE_NATIVE })
-    );
-    loop.start();
-    return () => loop.stop();
-  }, [w, reduce]);
+    if (Platform.OS !== "web" || typeof window === "undefined") return;
+    const onKey = (e) => {
+      if (e.key === "ArrowRight") go(i + 1);
+      else if (e.key === "ArrowLeft") go(i - 1);
+      else if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [i]);
 
-  const row = (k) => (
-    <View key={k} style={{ flexDirection: "row", gap: 14, paddingRight: 14 }} onLayout={k === 0 ? (e) => setW(e.nativeEvent.layout.width) : undefined}>
-      {(PHOTOS.length ? PHOTOS.map((ph, i) => ({ ...ph, id: "ph" + i, photo: true })) : PEOPLE).map((person, i) => (
-        <PressScale
-          key={person.id}
-          onPress={() => router.push({ pathname: "/coiffeuses", params: { style: person.style, ville: city || "" } })}
-          accessibilityLabel={person.label}
-          style={{ width: CARD, borderRadius: R.lg, overflow: "hidden", borderWidth: 1, borderColor: t.line, backgroundColor: t.surface }}
-        >
-          {person.photo ? (
-            <ZoomPhoto source={person.source} width={CARD} height={CARD * 1.3} reduce={reduce} delay={(i % 4) * 700} />
-          ) : (
-            <LinearGradient colors={person.bg} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ height: CARD * 1.12, alignItems: "center", justifyContent: "flex-end", overflow: "hidden" }}>
-              <View style={{ position: "absolute", top: -30, right: -30, width: 110, height: 110, borderRadius: 55, backgroundColor: "rgba(255,255,255,0.35)" }} />
-              <Portrait person={person} size={CARD * 0.84} reduce={reduce} seed={i + k * 3} />
-            </LinearGradient>
-          )}
-          <View style={{ padding: 12, gap: 2 }}>
-            <Text numberOfLines={1} style={{ color: t.ink, fontWeight: "800", fontSize: 15 }}>{person.label}</Text>
-            <Row gap={4} wrap={false}>
-              <Text style={{ color: t.accent, fontWeight: "700", fontSize: 13 }}>Trouver</Text>
-              <Ionicons name="arrow-forward" size={13} color={t.accent} />
-            </Row>
-          </View>
-        </PressScale>
-      ))}
-    </View>
+  const item = items[i] || items[0];
+  const imgH = height - insets.top - insets.bottom - 170;
+
+  const arrow = (dir) => (
+    <Pressable
+      onPress={() => go(i + dir)}
+      disabled={dir < 0 ? i === 0 : i === items.length - 1}
+      accessibilityRole="button"
+      accessibilityLabel={dir < 0 ? "Photo précédente" : "Photo suivante"}
+      style={({ pressed }) => ({
+        position: "absolute", top: "45%", [dir < 0 ? "left" : "right"]: 18, width: 52, height: 52, borderRadius: 26,
+        backgroundColor: "rgba(255,255,255,0.14)", alignItems: "center", justifyContent: "center",
+        opacity: (dir < 0 ? i === 0 : i === items.length - 1) ? 0.25 : pressed ? 0.6 : 1
+      })}
+    >
+      <Ionicons name={dir < 0 ? "chevron-back" : "chevron-forward"} size={28} color="#fff" />
+    </Pressable>
   );
 
   return (
-    <View style={{ overflow: "hidden" }}>
-      <Animated.View style={{ flexDirection: "row", paddingLeft: 20, transform: [{ translateX: x }] }}>
-        {row(0)}
-        {row(1)}
-      </Animated.View>
-    </View>
+    <Modal visible transparent animationType="fade" onRequestClose={onClose}>
+      <View style={{ flex: 1, backgroundColor: "rgba(12,7,10,0.96)" }}>
+        <FlatList
+          ref={listRef}
+          data={items}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          initialScrollIndex={start}
+          getItemLayout={(_, k) => ({ length: width, offset: width * k, index: k })}
+          keyExtractor={(it, k) => it.id || String(k)}
+          onScroll={(e) => {
+            const k = Math.round(e.nativeEvent.contentOffset.x / width);
+            if (k !== i && k >= 0 && k < items.length) setI(k);
+          }}
+          scrollEventThrottle={32}
+          renderItem={({ item: it }) => (
+            <View style={{ width, height, alignItems: "center", justifyContent: "center", paddingTop: insets.top + 40, paddingBottom: insets.bottom + 120 }}>
+              <Image source={it.source} resizeMode="contain" accessibilityLabel={it.label} style={{ width: Math.min(width - 24, 1000), height: imgH }} />
+            </View>
+          )}
+        />
+
+        {/* En-tête : position et fermeture */}
+        <View style={{ position: "absolute", top: insets.top + 12, left: 18, right: 18, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+          <Text style={{ color: "rgba(255,255,255,0.8)", fontWeight: "700" }}>{i + 1} / {items.length}</Text>
+          <Pressable onPress={onClose} hitSlop={10} accessibilityRole="button" accessibilityLabel="Fermer"
+            style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: "rgba(255,255,255,0.14)", alignItems: "center", justifyContent: "center" }}>
+            <Ionicons name="close" size={26} color="#fff" />
+          </Pressable>
+        </View>
+
+        {big ? arrow(-1) : null}
+        {big ? arrow(1) : null}
+
+        {/* Bas : nom de la coiffure et lien vers les coiffeuses */}
+        <View style={{ position: "absolute", left: 0, right: 0, bottom: insets.bottom + 22, alignItems: "center", gap: 10 }}>
+          <Text style={{ color: "#fff", fontWeight: "800", fontSize: 20 }}>{item.label}</Text>
+          <Pressable
+            onPress={() => { onClose(); router.push({ pathname: "/coiffeuses", params: { style: item.style, ville: city || "" } }); }}
+            accessibilityRole="button"
+            style={({ pressed }) => ({ flexDirection: "row", alignItems: "center", gap: 8, backgroundColor: "#B7790B", paddingHorizontal: 20, paddingVertical: 12, borderRadius: 999, opacity: pressed ? 0.85 : 1 })}
+          >
+            <Text style={{ color: "#1A0E14", fontWeight: "800" }}>Trouver une coiffeuse pour ce style</Text>
+            <Ionicons name="arrow-forward" size={16} color="#1A0E14" />
+          </Pressable>
+          {!big ? <Text style={{ color: "rgba(255,255,255,0.55)", fontSize: 12 }}>Glisse pour voir les autres coiffures</Text> : null}
+        </View>
+      </View>
+    </Modal>
+  );
+}
+
+// Galerie « Toutes les coiffures » : défile toute seule, on peut la faire glisser,
+// et toucher une photo l'ouvre en grand (vraies photos de lib/photos.js, sinon portraits illustrés)
+function PortraitGallery({ t, reduce, city }) {
+  const CARD = 168, GAP = 14, STEP = CARD + GAP;
+  const items = PHOTOS.length ? PHOTOS.map((ph, i) => ({ ...ph, id: "ph" + i, photo: true })) : PEOPLE;
+  const n = items.length;
+  const data = [...items, ...items]; // deux tours pour un défilement continu
+  const listRef = useRef(null);
+  const offset = useRef(0);
+  const pausedUntil = useRef(0);
+  const [viewer, setViewer] = useState(null);
+
+  // Défilement automatique, mis en pause dès qu'on touche la galerie
+  useEffect(() => {
+    if (reduce || viewer !== null) return;
+    const id = setInterval(() => {
+      if (Date.now() < pausedUntil.current || !listRef.current) return;
+      let next = Math.round(offset.current / STEP) + 1;
+      if (next >= n) {
+        // On revient au début sans que ça se voie (le 2e tour est identique au 1er)
+        listRef.current.scrollToOffset({ offset: (next - n - 1) * STEP, animated: false });
+        next = next - n;
+      }
+      listRef.current.scrollToOffset({ offset: next * STEP, animated: true });
+    }, 2600);
+    return () => clearInterval(id);
+  }, [reduce, viewer, n]);
+
+  const pause = () => { pausedUntil.current = Date.now() + 6000; };
+
+  return (
+    <>
+      <FlatList
+        ref={listRef}
+        data={data}
+        horizontal
+        keyExtractor={(it, k) => it.id + "-" + k}
+        showsHorizontalScrollIndicator={Platform.OS === "web"}
+        snapToInterval={STEP}
+        decelerationRate="fast"
+        contentContainerStyle={{ paddingHorizontal: 20, gap: GAP, paddingBottom: Platform.OS === "web" ? 10 : 0 }}
+        onScroll={(e) => { offset.current = e.nativeEvent.contentOffset.x; }}
+        scrollEventThrottle={32}
+        onScrollBeginDrag={pause}
+        onTouchStart={pause}
+        onWheel={pause}
+        onMouseEnter={pause}
+        initialNumToRender={8}
+        renderItem={({ item: person, index: i }) => (
+          <View style={{ width: CARD, borderRadius: R.lg, overflow: "hidden", borderWidth: 1, borderColor: t.line, backgroundColor: t.surface }}>
+            <PressScale
+              onPress={() => {
+                pause();
+                if (person.photo) setViewer(i % n);
+                else router.push({ pathname: "/coiffeuses", params: { style: person.style, ville: city || "" } });
+              }}
+              accessibilityLabel={person.photo ? `Voir la photo : ${person.label}` : person.label}
+            >
+              {person.photo ? (
+                <View>
+                  <ZoomPhoto source={person.source} width={CARD} height={CARD * 1.3} reduce={reduce} delay={(i % 4) * 700} />
+                  <View style={{ position: "absolute", right: 8, top: 8, width: 30, height: 30, borderRadius: 15, backgroundColor: "rgba(0,0,0,0.45)", alignItems: "center", justifyContent: "center" }}>
+                    <Ionicons name="expand-outline" size={16} color="#fff" />
+                  </View>
+                </View>
+              ) : (
+                <LinearGradient colors={person.bg} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ height: CARD * 1.12, alignItems: "center", justifyContent: "flex-end", overflow: "hidden" }}>
+                  <View style={{ position: "absolute", top: -30, right: -30, width: 110, height: 110, borderRadius: 55, backgroundColor: "rgba(255,255,255,0.35)" }} />
+                  <Portrait person={person} size={CARD * 0.84} reduce={reduce} seed={i} />
+                </LinearGradient>
+              )}
+            </PressScale>
+            <Pressable
+              onPress={() => router.push({ pathname: "/coiffeuses", params: { style: person.style, ville: city || "" } })}
+              accessibilityRole="link"
+              style={({ pressed }) => ({ padding: 12, gap: 2, opacity: pressed ? 0.7 : 1 })}
+            >
+              <Text numberOfLines={1} style={{ color: t.ink, fontWeight: "800", fontSize: 15 }}>{person.label}</Text>
+              <Row gap={4} wrap={false}>
+                <Text style={{ color: t.accent, fontWeight: "700", fontSize: 13 }}>Trouver</Text>
+                <Ionicons name="arrow-forward" size={13} color={t.accent} />
+              </Row>
+            </Pressable>
+          </View>
+        )}
+      />
+      {viewer !== null ? <PhotoViewer items={items} start={viewer} city={city} onClose={() => { setViewer(null); pause(); }} /> : null}
+    </>
   );
 }
 
