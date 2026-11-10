@@ -261,7 +261,9 @@ function Rise({ children, delay = 0, reduce, style, from = 26 }) {
 }
 
 // Carte qui rebondit légèrement quand on appuie dessus
-function PressScale({ children, onPress, style, accessibilityLabel }) {
+// `role` : "button" par défaut. Mettre role="link" quand la carte contient elle-même
+// un bouton (un bouton ne peut pas en contenir un autre sur le site web).
+function PressScale({ children, onPress, style, accessibilityLabel, role = "button" }) {
   const scale = useRef(new Animated.Value(1)).current;
   const to = (v, bounciness) =>
     Animated.spring(scale, { toValue: v, speed: 22, bounciness, useNativeDriver: USE_NATIVE }).start();
@@ -271,7 +273,7 @@ function PressScale({ children, onPress, style, accessibilityLabel }) {
       onPress={onPress}
       onPressIn={() => to(0.96, 4)}
       onPressOut={() => to(1, 8)}
-      accessibilityRole="button"
+      accessibilityRole={role}
       accessibilityLabel={accessibilityLabel}
     >
       <Animated.View style={[style, { transform: [{ scale }] }]}>{children}</Animated.View>
@@ -600,6 +602,7 @@ function SalonCard({ p, rating, t }) {
   return (
     <PressScale
       onPress={() => router.push(`/salon/${p.id}`)}
+      role="link"
       accessibilityLabel={p.name}
       style={{ width: 260, backgroundColor: t.surface, borderRadius: R.lg, borderWidth: 1, borderColor: t.line, overflow: "hidden" }}
     >
