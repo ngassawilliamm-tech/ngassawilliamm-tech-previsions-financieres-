@@ -8,6 +8,7 @@ import { MODE_LABEL, waNumber, telLink, frDate } from "../../lib/constants";
 import { Screen, Card, Row, Avatar, Title, Muted, Body, Chip, Rating, Btn, Stars, Loading, Label, LinkBtn } from "../../components/ui";
 import { Seo, SITE_URL } from "../../lib/seo";
 import Head from "expo-router/head";
+import { ShareButtons } from "../../components/ShareButtons";
 
 export default function Salon() {
   const { id } = useLocalSearchParams(); const t = useTheme(); const { user, isAdmin } = useAuth();
@@ -83,6 +84,11 @@ export default function Salon() {
         </Card>
       ))}
       {canEdit ? <Btn kind="ghost" title="Modifier cette fiche" onPress={() => router.push({ pathname: "/pro/salon", params: { id: p.id } })} /> : null}
+      <Card>
+        <Body style={{ fontWeight: "800" }}>Tu aimes ce salon ?</Body>
+        <Muted>Partage-le avec tes amies.</Muted>
+        <ShareButtons path={`/salon/${p.id}`} text={`${p.name}${p.city ? " à " + p.city : ""} sur Kitoko :`} />
+      </Card>
     </Screen>
   );
 }

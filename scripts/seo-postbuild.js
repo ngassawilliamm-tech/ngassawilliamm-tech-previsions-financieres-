@@ -5,6 +5,7 @@
 const fs = require("fs");
 const path = require("path");
 const cfg = require("../lib/seo-pages.json");
+const { cityPage, stylePage } = require("../lib/landing-content.js");
 
 const dir = path.resolve(process.argv[2] || "dist");
 const KEYWORDS = [
@@ -56,10 +57,34 @@ const common = [
   `<script type="application/ld+json">${jsonLd}</script>`
 ].join("");
 
+// Pages « Coiffeuse afro à <ville> » et « <coiffure> en Belgique »
+function landingOf(route) {
+  let m = route.match(/^\/coiffeuse-afro\/([a-z0-9-]+)$/);
+  if (m) return cityPage(m[1]);
+  m = route.match(/^\/coiffure\/([a-z0-9-]+)$/);
+  if (m) return stylePage(m[1]);
+  return null;
+}
+
+function landingJsonLd(lp) {
+  const crumbs = lp.crumbs.map((c, i) => ({
+    "@type": "ListItem", position: i + 1, name: c.label, item: cfg.siteUrl + (c.href || lp.path)
+  }));
+  return JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "BreadcrumbList", itemListElement: crumbs },
+      { "@type": "FAQPage", mainEntity: lp.faq.map((q) => ({ "@type": "Question", name: q.q, acceptedAnswer: { "@type": "Answer", text: q.a } })) }
+    ]
+  }).replace(/</g, "\\u003c");
+}
+
+const indexable = [];
 let n = 0;
 for (const file of walk(dir)) {
   const route = routeOf(file);
-  const page = cfg.pages[route];
+  const lp = landingOf(route);
+  const page = lp ? { title: lp.title, description: lp.description } : cfg.pages[route];
   const noindex = cfg.noindex.includes(route) || !page;
   const title = page ? page.title : "Kitoko";
   const desc = page ? page.description : cfg.pages["/"].description;
@@ -87,9 +112,44 @@ for (const file of walk(dir)) {
   ].filter(Boolean).join("");
   let html = fs.readFileSync(file, "utf8");
   html = html.replace(/<title[^>]*>[\s\S]*?<\/title>/, "").replace(/<meta name="description"[^>]*>/, "");
-  html = html.replace("<head>", "<head>" + tags + common);
+  const extra = lp ? `<script type="application/ld+json">${landingJsonLd(lp)}</script>` : "";
+  html = html.replace("<head>", "<head>" + tags + common + extra);
+  if (!noindex && !route.includes("[")) indexable.push({ route, prio: route === "/" ? "1.0" : lp ? "0.8" : "0.9" });
   html = html.replace(/<html([^>]*)\slang="[^"]*"/, "<html$1").replace("<html", '<html lang="fr-BE"');
   fs.writeFileSync(file, html);
   n++;
 }
-console.log(`Référencement : ${n} pages mises à jour dans ${dir}`);
+// Plan du site : toutes les pages publiques + chaque salon (si Supabase est joignable)
+function readEnv() {
+  const env = { ...process.env };
+  try {
+    for (const line of fs.readFileSync(path.join(__dirname, "..", ".env"), "utf8").split(/\r?\n/)) {
+      const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/);
+      if (m && !env[m[1]]) env[m[1]] = m[2].replace(/^["']|["']$/g, "");
+    }
+  } catch {}
+  return env;
+}
+
+async function salonRoutes() {
+  const env = readEnv();
+  const url = env.EXPO_PUBLIC_SUPABASE_URL, key = env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) return [];
+  try {
+    const res = await fetch(`${url}/rest/v1/salons?select=id`, { headers: { apikey: key, Authorization: `Bearer ${key}` } });
+    if (!res.ok) return [];
+    return (await res.json()).map((x) => ({ route: `/salon/${x.id}`, prio: "0.7" }));
+  } catch {
+    return [];
+  }
+}
+
+(async () => {
+  const salons = await salonRoutes();
+  const today = new Date().toISOString().slice(0, 10);
+  const unique = [...new Map(indexable.map((u) => [u.route, u])).values()];
+  const urls = [...unique.sort((a, b) => b.prio.localeCompare(a.prio) || a.route.localeCompare(b.route)), ...salons]
+    .map((u) => `  <url><loc>${cfg.siteUrl}${u.route === "/" ? "/" : u.route}</loc><lastmod>${today}</lastmod><priority>${u.prio}</priority></url>`);
+  fs.writeFileSync(path.join(dir, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join("\n")}\n</urlset>\n`);
+  console.log(`Référencement : ${n} pages mises à jour, plan du site avec ${urls.length} adresses (dont ${salons.length} salons) dans ${dir}`);
+})();

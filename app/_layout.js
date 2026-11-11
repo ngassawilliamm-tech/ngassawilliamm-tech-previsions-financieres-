@@ -8,6 +8,7 @@ import { CartProvider, useCart } from "../lib/cart";
 import { ActivityProvider, useActivity } from "../lib/activity";
 import { useTheme } from "../lib/theme";
 import { useScreenWidth } from "../lib/useScreenWidth";
+import { cityPage, stylePage } from "../lib/landing-content";
 
 function DesktopNavItem({ label, icon, href, active, t, badge }) {
   return (
@@ -103,6 +104,11 @@ function Nav() {
     contentStyle: { backgroundColor: t.bg },
     headerBackTitle: "Retour",
     headerShown: !desktopWeb,
+    // Titre d'en-tête en texte simple : le seul titre principal (h1) de chaque page
+    // est celui de son contenu (important pour Google)
+    headerTitle: ({ children }) => (
+      <Text numberOfLines={1} style={{ color: t.ink, fontWeight: "800", fontSize: 17 }}>{children}</Text>
+    ),
   };
 
   return (
@@ -118,6 +124,8 @@ function Nav() {
         <Stack.Screen name="connexion" options={{ title: "Connexion", presentation: "modal" }} />
         <Stack.Screen name="pro/salon" options={{ title: "Mon salon" }} />
         <Stack.Screen name="pro/boutique" options={{ title: "Ma boutique de mèches" }} />
+        <Stack.Screen name="coiffeuse-afro/[ville]" options={({ route }) => ({ title: "Coiffeuse afro à " + (cityPage(String(route.params?.ville))?.city || "…") })} />
+        <Stack.Screen name="coiffure/[style]" options={({ route }) => ({ title: stylePage(String(route.params?.style))?.h1 || "Coiffure afro" })} />
       </Stack>
     </View>
   );

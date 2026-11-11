@@ -1,0 +1,360 @@
+{
+  "cities": [
+    {
+      "name": "Bruxelles",
+      "slug": "bruxelles"
+    },
+    {
+      "name": "Alost",
+      "slug": "alost"
+    },
+    {
+      "name": "Andenne",
+      "slug": "andenne"
+    },
+    {
+      "name": "Anvers",
+      "slug": "anvers"
+    },
+    {
+      "name": "Arlon",
+      "slug": "arlon"
+    },
+    {
+      "name": "Ath",
+      "slug": "ath"
+    },
+    {
+      "name": "Bastogne",
+      "slug": "bastogne"
+    },
+    {
+      "name": "Beveren",
+      "slug": "beveren"
+    },
+    {
+      "name": "Binche",
+      "slug": "binche"
+    },
+    {
+      "name": "Braine-l'Alleud",
+      "slug": "braine-l-alleud"
+    },
+    {
+      "name": "Bruges",
+      "slug": "bruges"
+    },
+    {
+      "name": "Charleroi",
+      "slug": "charleroi"
+    },
+    {
+      "name": "Châtelet",
+      "slug": "chatelet"
+    },
+    {
+      "name": "Ciney",
+      "slug": "ciney"
+    },
+    {
+      "name": "Courcelles",
+      "slug": "courcelles"
+    },
+    {
+      "name": "Courtrai",
+      "slug": "courtrai"
+    },
+    {
+      "name": "Dilbeek",
+      "slug": "dilbeek"
+    },
+    {
+      "name": "Dinant",
+      "slug": "dinant"
+    },
+    {
+      "name": "Enghien",
+      "slug": "enghien"
+    },
+    {
+      "name": "Eupen",
+      "slug": "eupen"
+    },
+    {
+      "name": "Fleurus",
+      "slug": "fleurus"
+    },
+    {
+      "name": "Gand",
+      "slug": "gand"
+    },
+    {
+      "name": "Gembloux",
+      "slug": "gembloux"
+    },
+    {
+      "name": "Genk",
+      "slug": "genk"
+    },
+    {
+      "name": "Genval",
+      "slug": "genval"
+    },
+    {
+      "name": "Grimbergen",
+      "slug": "grimbergen"
+    },
+    {
+      "name": "Hal",
+      "slug": "hal"
+    },
+    {
+      "name": "Hasselt",
+      "slug": "hasselt"
+    },
+    {
+      "name": "Herstal",
+      "slug": "herstal"
+    },
+    {
+      "name": "Huy",
+      "slug": "huy"
+    },
+    {
+      "name": "Jodoigne",
+      "slug": "jodoigne"
+    },
+    {
+      "name": "La Louvière",
+      "slug": "la-louviere"
+    },
+    {
+      "name": "Libramont",
+      "slug": "libramont"
+    },
+    {
+      "name": "Liège",
+      "slug": "liege"
+    },
+    {
+      "name": "Lokeren",
+      "slug": "lokeren"
+    },
+    {
+      "name": "Louvain",
+      "slug": "louvain"
+    },
+    {
+      "name": "Louvain-la-Neuve",
+      "slug": "louvain-la-neuve"
+    },
+    {
+      "name": "Maasmechelen",
+      "slug": "maasmechelen"
+    },
+    {
+      "name": "Malines",
+      "slug": "malines"
+    },
+    {
+      "name": "Malmedy",
+      "slug": "malmedy"
+    },
+    {
+      "name": "Marche-en-Famenne",
+      "slug": "marche-en-famenne"
+    },
+    {
+      "name": "Mons",
+      "slug": "mons"
+    },
+    {
+      "name": "Mouscron",
+      "slug": "mouscron"
+    },
+    {
+      "name": "Namur",
+      "slug": "namur"
+    },
+    {
+      "name": "Nivelles",
+      "slug": "nivelles"
+    },
+    {
+      "name": "Ostende",
+      "slug": "ostende"
+    },
+    {
+      "name": "Ottignies",
+      "slug": "ottignies"
+    },
+    {
+      "name": "Rixensart",
+      "slug": "rixensart"
+    },
+    {
+      "name": "Roulers",
+      "slug": "roulers"
+    },
+    {
+      "name": "Saint-Nicolas",
+      "slug": "saint-nicolas"
+    },
+    {
+      "name": "Saint-Trond",
+      "slug": "saint-trond"
+    },
+    {
+      "name": "Sambreville",
+      "slug": "sambreville"
+    },
+    {
+      "name": "Seraing",
+      "slug": "seraing"
+    },
+    {
+      "name": "Soignies",
+      "slug": "soignies"
+    },
+    {
+      "name": "Spa",
+      "slug": "spa"
+    },
+    {
+      "name": "Termonde",
+      "slug": "termonde"
+    },
+    {
+      "name": "Tongres",
+      "slug": "tongres"
+    },
+    {
+      "name": "Tournai",
+      "slug": "tournai"
+    },
+    {
+      "name": "Tubize",
+      "slug": "tubize"
+    },
+    {
+      "name": "Turnhout",
+      "slug": "turnhout"
+    },
+    {
+      "name": "Verviers",
+      "slug": "verviers"
+    },
+    {
+      "name": "Vilvorde",
+      "slug": "vilvorde"
+    },
+    {
+      "name": "Virton",
+      "slug": "virton"
+    },
+    {
+      "name": "Waremme",
+      "slug": "waremme"
+    },
+    {
+      "name": "Waterloo",
+      "slug": "waterloo"
+    },
+    {
+      "name": "Wavre",
+      "slug": "wavre"
+    },
+    {
+      "name": "Zaventem",
+      "slug": "zaventem"
+    }
+  ],
+  "popular": [
+    "Bruxelles",
+    "Anvers",
+    "Liège",
+    "Charleroi",
+    "Gand",
+    "Namur",
+    "Mons",
+    "Louvain-la-Neuve",
+    "Louvain",
+    "Bruges",
+    "Hasselt",
+    "Verviers"
+  ],
+  "styles": [
+    {
+      "slug": "box-braids",
+      "name": "Box braids",
+      "style": "Box braids",
+      "intro": "Les box braids sont des tresses individuelles posées par sections carrées, avec ou sans mèches. Longues, mi-longues ou en bob, elles protègent tes cheveux pendant 4 à 8 semaines."
+    },
+    {
+      "slug": "knotless-braids",
+      "name": "Knotless braids",
+      "style": "Knotless",
+      "intro": "Les knotless braids commencent sans nœud à la racine : plus légères, plus naturelles et plus douces pour le cuir chevelu que les box braids classiques."
+    },
+    {
+      "slug": "cornrows",
+      "name": "Cornrows",
+      "style": "Cornrows / nattes collées",
+      "intro": "Les cornrows, ou nattes collées, sont tressées au ras du cuir chevelu en lignes droites ou en motifs. Parfaites seules, en queue de cheval ou combinées à des tresses libres."
+    },
+    {
+      "slug": "fulani-braids",
+      "name": "Fulani braids",
+      "style": "Tresses",
+      "intro": "Les Fulani braids associent des nattes collées sur le dessus et des tresses libres sur les côtés, souvent décorées de perles et d’anneaux dorés."
+    },
+    {
+      "slug": "locks",
+      "name": "Locks et dreadlocks",
+      "style": "Locks / dreadlocks",
+      "intro": "Création, entretien et resserrage de locks naturelles, faux locs et dreadlocks : trouve une loctitienne près de chez toi."
+    },
+    {
+      "slug": "twists",
+      "name": "Twists",
+      "style": "Twists",
+      "intro": "Twists sénégalaises, passion twists ou twists sur cheveux naturels : une coiffure protectrice élégante et rapide à entretenir."
+    },
+    {
+      "slug": "faux-locs",
+      "name": "Faux locs",
+      "style": "Faux locs",
+      "intro": "Les faux locs donnent l’allure des locks en quelques heures, sans engagement, grâce à des mèches enroulées autour de tes tresses."
+    },
+    {
+      "slug": "crochet-braids",
+      "name": "Crochet braids",
+      "style": "Crochet braids",
+      "intro": "Les crochet braids sont posées au crochet sur une base de nattes collées : rapides à faire, avec un grand choix de boucles et de textures."
+    },
+    {
+      "slug": "tissage",
+      "name": "Tissage",
+      "style": "Tissage",
+      "intro": "Pose de tissage cousu ou collé, avec closure ou frontal, pour un résultat naturel et durable."
+    },
+    {
+      "slug": "perruque-lace-wig",
+      "name": "Perruque et lace wig",
+      "style": "Perruque / lace wig",
+      "intro": "Pose, personnalisation et entretien de perruques et lace wigs : coupe, coloration et baby hair."
+    },
+    {
+      "slug": "coiffure-enfants",
+      "name": "Coiffure afro enfants",
+      "style": "Coiffure enfants",
+      "intro": "Tresses, nattes et coiffures protectrices pour enfants, réalisées avec douceur par des coiffeuses habituées aux plus petits."
+    },
+    {
+      "slug": "soins-cheveux-naturels",
+      "name": "Soins cheveux naturels et 4C",
+      "style": "Soins cheveux naturels",
+      "intro": "Soins, hydratation et coupe adaptés aux cheveux crépus, frisés et 4C, pour des cheveux naturels en pleine santé."
+    }
+  ]
+}

@@ -7,14 +7,14 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "../../lib/icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { router, useFocusEffect } from "expo-router";
+import { router, useFocusEffect, Link } from "expo-router";
 import { supabase } from "../../lib/supabase";
 import { useTheme, R } from "../../lib/theme";
 import {
   Btn, Title, Muted, Eyebrow, Avatar, Rating,
   Row, Chip, Swatch, Body, Select
 } from "../../components/ui";
-import { euro, CITIES, POPULAR_CITIES } from "../../lib/constants";
+import { euro, CITIES, POPULAR_CITIES, CITY_SLUG, LANDING_STYLES } from "../../lib/constants";
 import { Portrait, PortraitAvatar, PEOPLE } from "../../components/Portrait";
 import { Seo } from "../../lib/seo";
 import { PHOTOS } from "../../lib/photos";
@@ -1379,6 +1379,27 @@ export default function Home() {
               <Btn kind="ghost" title="J'ai une boutique" onPress={() => router.push("/pro/boutique")} />
             </Row>
           </LinearGradient>
+        </View>
+
+        {/* ───── Liens vers les pages villes et coiffures (référencement) ───── */}
+        <View style={{ paddingHorizontal: 20, paddingTop: 10, gap: 12 }}>
+          <Text role="heading" aria-level={2} style={{ color: t.ink, fontSize: 20, fontWeight: "800" }}>Coiffeuses afro par ville</Text>
+          <View style={{ flexDirection: "row", flexWrap: "wrap", columnGap: 14, rowGap: 6 }}>
+            {CITIES.map((c) => (
+              <Link key={c} href={`/coiffeuse-afro/${CITY_SLUG[c]}`} style={{ color: t.muted, fontSize: 14 }}>
+                Coiffeuse afro {c}
+              </Link>
+            ))}
+          </View>
+          <Text role="heading" aria-level={2} style={{ color: t.ink, fontSize: 20, fontWeight: "800", marginTop: 8 }}>Coiffures afro</Text>
+          <View style={{ flexDirection: "row", flexWrap: "wrap", columnGap: 14, rowGap: 6 }}>
+            {LANDING_STYLES.map((st) => (
+              <Link key={st.slug} href={`/coiffure/${st.slug}`} style={{ color: t.muted, fontSize: 14 }}>
+                {st.name}
+              </Link>
+            ))}
+          </View>
+          <Muted style={{ fontSize: 12, marginTop: 10 }}>© Kitoko · Beauté · Style · Confiance — kitoko-afro.be</Muted>
         </View>
         </View>
       </Animated.ScrollView>
